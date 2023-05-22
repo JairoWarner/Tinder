@@ -1,8 +1,8 @@
 <?php
 
-
+session_start();
 $servername = "localhost";
-$dbname = "Tinder";
+$dbname = "tinder";
 $username = "root";
 $password = "";
 
@@ -14,10 +14,4 @@ try {
 } catch (PDOException $e) {
     echo "Connectie mislukt: " . $e->getMessage();
 }
-try {
-    $con = mysqli_connect($servername, $username, $password, $dbname);
-//w    echo "connectie gelukt";
-
-} catch (PDOException $e) {
-    echo "Connectie mislukt: " . $e->getMessage();
-}
+?>

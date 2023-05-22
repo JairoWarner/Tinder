@@ -1,0 +1,202 @@
+body {
+    margin: 0;
+    background-color: white;
+
+}
+
+
+
+
+
+
+
+.left{
+    font-size: 1.3em;
+    cursor: pointer;
+
+}
+
+
+
+
+
+.logUit  {
+    font-size: 1.3em;
+    margin-left: auto;
+    font-weight: bolder;
+}
+nav {
+    overflow: hidden;
+    display: flex;
+    padding: 14px 14px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+
+nav a {
+    float: left;
+    font-size: 1.0em;
+    color: black;
+    text-align: center;
+    padding: 16px 18px;
+    text-decoration: none;
+}
+
+
+.text_logo {
+    float: left;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bolder;
+    color: black;
+    font-size: 1.0em;
+}
+
+
+nav a:hover, nav .dropdown:hover, nav .dropbtn {
+
+    background: grey;
+
+    border-radius: 5px;
+}
+
+nav .dropdown {
+    overflow: hidden;
+    font-size: 1.3em;
+}
+
+nav .dropdown .dropbtn {
+    font-size: 1.0em;
+    display: flex;
+    border: none;
+    outline: none;
+    color: black;
+    padding: 16px 19px;
+    background-color: inmherit;
+    font-weight: bolder;
+
+    margin: 0;
+}
+
+nav .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 100px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: 50px;
+    font-size: 1.0em;
+}
+
+nav .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 10px 10px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    font-size: 1.0em;
+}
+
+
+nav .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* content card */
+.content {
+    padding: 10px;
+    margin: 10px;
+    min-height: 600px;
+    margin-top: 100px;
+    /* background-color: grey; */
+}
+
+.accountPage {
+    display: flex;
+    justify-content: center;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    /* background-color: black; */
+}
+
+.accountCard {
+    color: white;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-around;
+    /* justify-content: space-between; */
+    margin: 10px;
+    padding: 10px;
+    width: 500px;
+    height: 500px;
+    /* margin-top: 100px; */
+    border-radius: 10px;
+    /* background: linear-gradient(to top right, #FF519C, #FF9068, #FD746C); */
+    box-shadow: 10px 10px 50px rgb(0, 0, 0);
+
+}
+
+.tinderCard {
+    color: white;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-around;
+    /* justify-content: space-between; */
+    margin: 10px;
+    padding: 10px;
+    width: 600px;
+    height: 100%;
+    /* margin-top: 100px; */
+    border-radius: 10px;
+    background: linear-gradient(to top right, #FF519C, #FF9068, #FD746C);
+    box-shadow: 10px 10px 50px rgb(0, 0, 0);
+}
+.accountItems {
+    display: flex;
+    flex-direction: column;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.accountForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+#ageSlider {
+    width: 300px;
+    position: relative;
+  }
+  
+  #minAge,
+  #maxAge {
+    width: 100%;
+  }
+ 
+  
+  #draggableMin {
+    left: 0;
+  }
+  
+  #draggableMax {
+    right: 0;
+  }
+  
+  #ageRangeLabel {
+    margin-top: 10px;
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  
