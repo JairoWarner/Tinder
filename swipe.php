@@ -10,7 +10,6 @@
 <body>
 <?php require 'includes/header.php'?>
 <div class="divRead">
-    <p>Dit zijn alle klant gegevens uit de database:</p>
     <div class="swipe">
 
         <?php 
