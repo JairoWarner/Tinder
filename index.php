@@ -17,6 +17,14 @@ include("includes/header.php");
     <title>Document</title>
 </head>
 <body>
+    <div class="content">
+        <div class="center_title">
+            <div class="title_text">
+                <h1>Swipe naar Rechts</h1>
+                <button><a href="registerForm.php">Account aanmaken</a> </button>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

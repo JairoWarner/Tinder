@@ -255,7 +255,6 @@ public function getEmail() {
         echo '<ul>';
         echo '<li>UserID: ' . $user['userId'] . '</li>';
         echo '<li>Email: ' . $user['email'] . '</li>';
-        echo '<li>Password: ' . $user['password'] . '</li>';
         echo '<li>Name: ' . $user['naam'] . '</li>';
         echo '<li>Surname: ' . $user['achternaam'] . '</li>';
         echo '<li>Date of Birth: ' . $user['geboorteDatum'] . '</li>';
