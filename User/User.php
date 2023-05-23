@@ -246,33 +246,104 @@ public function getEmail() {
     $sql->bindParam(':email', $email);
     $sql->execute();
 
-    foreach ($sql as $user) {
-        echo '<div class="readList">';
-        echo '<div class="buttons">';
-        echo '<a href="userDelete.php?action=delete&userId=' . $user['userId'] . '" class="deleteButton" onclick="return confirm(\'Are you sure you want to delete your account?\')">Delete</a>';
-        echo '<a href="userUpdateForm.php?action=update&userId=' . $user['userId'] . '" class="updateButton">Update</a>';
-        echo '</div>';
-        echo '<ul>';
-        echo '<li>UserID: ' . $user['userId'] . '</li>';
-        echo '<li>Email: ' . $user['email'] . '</li>';
-        echo '<li>Name: ' . $user['naam'] . '</li>';
-        echo '<li>Surname: ' . $user['achternaam'] . '</li>';
-        echo '<li>Date of Birth: ' . $user['geboorteDatum'] . '</li>';
-        echo '<li>Gender: ' . $user['geslacht'] . '</li>';
-        echo '<li>Location: ' . $user['locatie'] . '</li>';
-        echo '<li>Sexual Orientation: ' . $user['sexualOri'] . '</li>';
-        echo '<li>School/Job: ' . $user['schoolBaan'] . '</li>';
-        echo '<li>Hobbies: ' . $user['interesses'] . '</li>';
-        echo '<li>Foto\'s: ' . $user['fotos'] . '</li>';
-        echo '<li>Preference: ' . $user['showMe'] . '</li>';
-        echo '<li>Age: ' . $user['leeftijd'] . '</li>';
-        echo '<li>Age Range: ' . $user['ageRange'] . '</li>';
-        echo '<li>Bio: ' . $user['bio'] . '</li>';
-        echo '</ul>';
-        echo '</div>';
-        echo '<br>';
+        foreach ($sql as $user) {
+            echo '<div class="readList">';
+            echo '<div class="buttons">';
+            echo '<a href="userDelete.php?action=delete&userId=' . $user['userId'] . '" class="deleteButton" onclick="return confirm(\'Are you sure you want to delete your account?\')">Delete</a>';
+            echo '<a href="userUpdateForm.php?action=update&userId=' . $user['userId'] . '" class="updateButton">Update</a>';
+            echo '</div>';
+            echo '<ul>';
+            echo '<li>UserID: ' . $user['userId'] . '</li>';
+            echo '<li>Email: ' . $user['email'] . '</li>';
+            echo '<li>Name: ' . $user['naam'] . '</li>';
+            echo '<li>Surname: ' . $user['achternaam'] . '</li>';
+            echo '<li>Date of Birth: ' . $user['geboorteDatum'] . '</li>';
+            echo '<li>Gender: ' . $user['geslacht'] . '</li>';
+            echo '<li>Location: ' . $user['locatie'] . '</li>';
+            echo '<li>Sexual Orientation: ' . $user['sexualOri'] . '</li>';
+            echo '<li>School/Job: ' . $user['schoolBaan'] . '</li>';
+            echo '<li>Hobbies: ' . $user['interesses'] . '</li>';
+            echo '<li>Foto\'s: ' . $user['fotos'] . '</li>';
+            echo '<li>Preference: ' . $user['showMe'] . '</li>';
+            echo '<li>Age: ' . $user['leeftijd'] . '</li>';
+            echo '<li>Age Range: ' . $user['ageRange'] . '</li>';
+            echo '<li>Bio: ' . $user['bio'] . '</li>';
+            echo '</ul>';
+            echo '</div>';
+            echo '<br>';
+        }
+    }
+
+    // sent logged in users id and the liked id to the database so a match can be made
+    public function userLike($userId) {
+        require_once 'database/database.php';
+        $likedId = rand(1, 5);
+    
+        // Check if the like already exists
+        $checkSql = "SELECT * FROM likes WHERE liker_id = :userId AND liked_id = :likedId";
+        $checkStmt = $conn->prepare($checkSql);
+        $checkStmt->bindParam(':userId', $userId);
+        $checkStmt->bindParam(':likedId', $likedId);
+        $checkStmt->execute();
+    
+        // If the like doesn't exist, insert it
+        if ($checkStmt->rowCount() === 0) {
+            $insertSql = "INSERT INTO likes (liker_id, liked_id, like_status, timestamp)
+                        VALUES (:userId, :likedId, 'liked', NOW())";
+            $insertStmt = $conn->prepare($insertSql);
+            $insertStmt->bindParam(':userId', $userId);
+            $insertStmt->bindParam(':likedId', $likedId);
+    
+            // Execute the SQL statement
+            if ($insertStmt->execute()) {
+                // Check if the mutual like exists
+                $mutualSql = "SELECT * FROM likes WHERE liker_id = :likedId AND liked_id = :userId";
+                $mutualStmt = $conn->prepare($mutualSql);
+                $mutualStmt->bindParam(':userId', $userId);
+                $mutualStmt->bindParam(':likedId', $likedId);
+                $mutualStmt->execute();
+    
+                // If it's a mutual like, insert into matches table
+                if ($mutualStmt->rowCount() > 0) {
+                    $matchSql = "INSERT INTO matches (user_id_1, user_id_2, match_date)
+                                 VALUES (:userId, :likedId, NOW())";
+                    $matchStmt = $conn->prepare($matchSql);
+                    $matchStmt->bindParam(':userId', $userId);
+                    $matchStmt->bindParam(':likedId', $likedId);
+                    $matchStmt->execute();
+                }
+    
+                header("location:swipe.php");
+                $_SESSION['message'] = "Liked " . $likedId;
+            } else {
+                echo "Error: " . $insertStmt->errorInfo()[2];
+            }
+        } else {
+            echo "User already liked this person";
+        }
     }
     
-}
+    
+    
+
+    // get userId and put it in a session
+    public function getUserIdSession($email) {
+        // Assuming you have your own logic to retrieve the userId based on the email
+        require_once 'database/database.php';
+        $sql = $conn->prepare('SELECT userId FROM users WHERE email = :email');
+        $sql->bindParam(':email', $email);
+        $sql->execute();
+        // Fetch the result of the query
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
+
+        // Access the userId from the result
+        $userId = $result['userId'];
+        
+        // Store the userId in a session variable
+        $_SESSION['userId'] = $userId;        
+        // Return the userId
+        return $userId;
+    }
 
 }
+
