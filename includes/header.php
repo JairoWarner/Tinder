@@ -4,14 +4,14 @@
     <nav>
         <div class="left">
             <div class="img_container">
-                <img src="includes/Tinder-Logo.png" alt="Tinder Logo" style="width: 100px; ">
+                <img href="index.php" src="includes/Tinder-Logo.png" alt="Tinder Logo" style="width: 100px; ">
             </div>
 
 
 
         </div>
 
-        <div class="dropdown">
+        <!-- <div class="dropdown">
             <button class="dropbtn">Klant
                 <i class="fa fa-caret-down"></i>
             </button>
@@ -20,7 +20,7 @@
                 <a href="#">Read Klant</a>
                 <a href="#">Search klant</a>
             </div>
-        </div>
+        </div> -->
 
         <div class="text_logo"><p></p></div>
         <div class="accountDiv">

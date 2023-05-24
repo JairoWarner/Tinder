@@ -239,8 +239,7 @@ public function getEmail() {
     //         echo "<br>";
     //     }
     // }
-    public function readUser($email)
-{
+    public function readUser($email) {
     require_once 'database/database.php';
     $sql = $conn->prepare('SELECT * FROM users WHERE email = :email');
     $sql->bindParam(':email', $email);
@@ -276,8 +275,9 @@ public function getEmail() {
 
     // sent logged in users id and the liked id to the database so a match can be made
     public function userLike($userId) {
-        require_once 'database/database.php';
-        $likedId = rand(1, 5);
+        require_once 'database/conn.php';
+        // $likedId = rand(1, 5);
+        $likedId = 5;
     
         // Check if the like already exists
         $checkSql = "SELECT * FROM likes WHERE liker_id = :userId AND liked_id = :likedId";
@@ -311,6 +311,13 @@ public function getEmail() {
                     $matchStmt->bindParam(':userId', $userId);
                     $matchStmt->bindParam(':likedId', $likedId);
                     $matchStmt->execute();
+
+                    if ($matchStmt->execute()) {
+                        header("location:swipe.php");
+                        $_SESSION['message'] = "It's a match! " . $likedId;
+                    } else {
+                        echo "Error: Failed to insert into matches table.";
+                    }
                 }
     
                 header("location:swipe.php");
@@ -319,7 +326,9 @@ public function getEmail() {
                 echo "Error: " . $insertStmt->errorInfo()[2];
             }
         } else {
-            echo "User already liked this person";
+            header("location:swipe.php");
+            $_SESSION['message'] = "User already liked this person";
+       
         }
     }
     
@@ -328,7 +337,6 @@ public function getEmail() {
 
     // get userId and put it in a session
     public function getUserIdSession($email) {
-        // Assuming you have your own logic to retrieve the userId based on the email
         require_once 'database/database.php';
         $sql = $conn->prepare('SELECT userId FROM users WHERE email = :email');
         $sql->bindParam(':email', $email);
@@ -344,6 +352,59 @@ public function getEmail() {
         // Return the userId
         return $userId;
     }
+
+    public function getMatches($userId) {
+        require 'database/database.php';
+        $sql = $conn->prepare("SELECT * FROM matches WHERE user_id_1 = :userId OR user_id_2 = :userId");
+        $sql->bindParam(':userId', $userId);
+        $sql->execute();
+    
+        $matches = $sql->fetchAll(PDO::FETCH_ASSOC);
+        $matchedUserIds = array();
+    
+        foreach ($matches as $match) {
+            $matchedUserId = ($match['user_id_1'] == $userId) ? $match['user_id_2'] : $match['user_id_1'];
+            $matchedUserIds[] = $matchedUserId;
+        }
+    
+        return $matchedUserIds;
+    }
+
+
+    // retrieve information about other users using their ID
+    public function matchedUser($matchedUserId) {
+        require 'database/database.php';
+        $sql = $conn->prepare('SELECT * FROM users WHERE userId = :userId');
+        $sql->bindParam(':userId', $matchedUserId);
+        $sql->execute();
+    
+        $users = [];
+        foreach ($sql as $user) {
+            $userData = [];
+            $userData['userId'] = $user['userId'];
+            $userData['email'] = $user['email'];
+            $userData['name'] = $user['naam'];
+            echo '<li>Name: ' . $user['naam'];
+            echo $user['achternaam'] . '</li>';
+            $userData['surname'] = $user['achternaam'];
+            $userData['dateOfBirth'] = $user['geboorteDatum'];
+            $userData['gender'] = $user['geslacht'];
+            $userData['location'] = $user['locatie'];
+            $userData['sexualOrientation'] = $user['sexualOri'];
+            $userData['schoolJob'] = $user['schoolBaan'];
+            $userData['hobbies'] = $user['interesses'];
+            $userData['photos'] = $user['fotos'];
+            $userData['preference'] = $user['showMe'];
+            $userData['age'] = $user['leeftijd'];
+            $userData['ageRange'] = $user['ageRange'];
+            $userData['bio'] = $user['bio'];
+    
+            $users[] = $userData;
+        }
+    
+        return $users;
+    }
+    
 
 }
 
