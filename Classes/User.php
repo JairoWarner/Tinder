@@ -2,6 +2,25 @@
 
 class User
 {
+    public $userId;
+    public $email;
+    public $password;
+    public $naam;
+    public $achternaam;
+    public $geboorteDatum;
+    public $geslacht;
+    public $locatie;
+    public $sexualOri;
+    public $schoolBaan;
+    public $interesses;
+    public $fotos;
+    public $showMe;
+    public $leeftijd;
+    public $ageRange;
+    public $bio;
+
+
+
 // methoden - functies -------------------
 // constructor
     public function __construct($userId = NULL, $email = NULL, $password = NULL, $naam = NULL, $achternaam = NULL, $geboorteDatum = NULL, $geslacht = NULL, $locatie = NULL, $sexualOri = NULL, $schoolBaan = NULL, $interesses = NULL, $fotos = NULL, $showMe = NULL, $leeftijd = NULL, $ageRange = NULL, $bio = NULL)
