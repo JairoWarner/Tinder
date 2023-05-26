@@ -384,8 +384,8 @@ public function getEmail() {
             $userData['userId'] = $user['userId'];
             $userData['email'] = $user['email'];
             $userData['name'] = $user['naam'];
-            echo '<li>Name: ' . $user['naam'];
-            echo $user['achternaam'] . '</li>';
+            echo '<li><a href="chat.php?action=chat&userId=' . $user['userId'] . '" >Name: ' . $user['naam'];
+            echo ' ' . $user['achternaam'] . '></li>';
             $userData['surname'] = $user['achternaam'];
             $userData['dateOfBirth'] = $user['geboorteDatum'];
             $userData['gender'] = $user['geslacht'];
@@ -404,6 +404,8 @@ public function getEmail() {
     
         return $users;
     }
+
+    
     
 
 }
