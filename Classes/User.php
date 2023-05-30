@@ -268,7 +268,7 @@ public function getEmail() {
             echo '<div class="readList">';
             echo '<div class="buttons">';
             echo '<a href="userDelete.php?action=delete&userId=' . $user['userId'] . '" class="deleteButton" onclick="return confirm(\'Are you sure you want to delete your account?\')">Delete</a>';
-            echo '<a href="userUpdateForm.php?action=update&userId=' . $user['userId'] . '" class="updateButton">Update</a>';
+            echo '<a href="UpdateForm.php?action=update&userId=' . $user['userId'] . '" class="updateButton">Update</a>';
             echo '</div>';
             echo '<ul>';
             echo '<li>UserID: ' . $user['userId'] . '</li>';
@@ -291,6 +291,82 @@ public function getEmail() {
             echo '<br>';
         }
     }
+
+    //user update
+    public function updateuser($userId, $naam, $achternaam, $geboorteDatum, $geslacht, $locatie, $sexualOri, $schoolBaan, $interesses, $fotos, $showMe, $leeftijd, $ageRange, $bio, $email, $password)
+    {
+        require 'database/conn.php';
+        $sql = $conn->prepare('UPDATE users SET naam = :naam, achternaam = :achternaam, geboorteDatum = :geboorteDatum, geslacht = :geslacht, locatie = :locatie, sexualOri = :sexualOri, schoolBaan = :schoolBaan, interesses = :interesses, fotos = :fotos, showMe = :showMe, leeftijd = :leeftijd, ageRange = :ageRange, bio = :bio, email = :email, password = :password WHERE userId = :userId');
+
+        $sql->bindParam(':userId', $userId);
+        $sql->bindParam(':naam', $naam);
+        $sql->bindParam(':achternaam', $achternaam);
+        $sql->bindParam(':geboorteDatum', $geboorteDatum);
+        $sql->bindParam(':geslacht', $geslacht);
+        $sql->bindParam(':locatie', $locatie);
+        $sql->bindParam(':sexualOri', $sexualOri);
+        $sql->bindParam(':schoolBaan', $schoolBaan);
+        $sql->bindParam(':interesses', $interesses);
+        $sql->bindParam(':fotos', $fotos);
+        $sql->bindParam(':showMe', $showMe);
+        $sql->bindParam(':leeftijd', $leeftijd);
+        $sql->bindParam(':ageRange', $ageRange);
+        $sql->bindParam(':bio', $bio);
+        $sql->bindParam(':email', $email);
+        $sql->bindParam(':password', $password);
+
+        $sql->execute();
+
+
+
+
+        $_SESSION['message'] = 'Users ' . $naam . ' is bijgewerkt <br>';
+        header("Location: account.php");
+    }
+
+    //user Delete
+    public function deleteUser($userId)
+    {
+        require 'database/database.php';
+        // $sql = $conn->prepare('DELETE FROM users WHERE userId = :userId');
+        // $sql->bindParam(':userId', $userId);
+        // $sql->execute();
+        // Delete user and related data from multiple tables
+
+        // Prepare the SQL statements
+        $sqlDeleteLikes = $conn->prepare('DELETE FROM likes WHERE liker_id = :userId OR liked_id = :userId');
+        $sqlDeleteMatches = $conn->prepare('DELETE FROM matches WHERE user_id_1 = :userId OR user_id_2 = :userId');
+        $sqlDeleteChats = $conn->prepare('DELETE FROM chats WHERE senderId = :userId OR receiverId = :userId');
+        $sqlDeleteUser = $conn->prepare('DELETE FROM users WHERE userId = :userId');
+
+
+        // Bind the parameter
+        $sqlDeleteLikes->bindParam(':userId', $userId);
+        $sqlDeleteMatches->bindParam(':userId', $userId);
+        $sqlDeleteChats->bindParam(':userId', $userId);
+        $sqlDeleteUser->bindParam(':userId', $userId);
+
+        // Execute the delete statements
+        $sqlDeleteLikes->execute();
+        $sqlDeleteMatches->execute();
+        $sqlDeleteChats->execute();
+        $sqlDeleteUser->execute();
+
+
+        //melding
+        $_SESSION['message'] = 'User ' . $userId . ' is verwijderd. <br>';
+        header("Location: account.php");
+    }
+
+    public function findUser($userId) {
+        require 'database/database.php';
+        $sql = $conn->prepare('SELECT * FROM users WHERE userId = :userId');
+        $sql->bindParam(':userId', $userId);
+        $sql->execute();
+        $user = $sql->fetch();
+        return $user;
+    }
+
 
     // sent logged in users id and the liked id to the database so a match can be made
     public function userLike($userId) {
@@ -391,7 +467,7 @@ public function getEmail() {
 
 
     // retrieve information about other users using their ID
-    public function matchedUser($matchedUserId) {
+    public function matchedUser($userId) {
         require 'database/database.php';
         $sql = $conn->prepare('SELECT * FROM users WHERE userId = :userId');
         $sql->bindParam(':userId', $matchedUserId);
@@ -403,8 +479,6 @@ public function getEmail() {
             $userData['userId'] = $user['userId'];
             $userData['email'] = $user['email'];
             $userData['name'] = $user['naam'];
-            echo '<li><a href="chat.php?action=chat&userId=' . $user['userId'] . '" >Name: ' . $user['naam'];
-            echo ' ' . $user['achternaam'] . '></li>';
             $userData['surname'] = $user['achternaam'];
             $userData['dateOfBirth'] = $user['geboorteDatum'];
             $userData['gender'] = $user['geslacht'];
