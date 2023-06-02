@@ -16,6 +16,9 @@ body {
 
 }
 
+li{
+    text-decoration: none;
+}
 
 
 
@@ -243,3 +246,4 @@ nav .dropdown:hover .dropdown-content {
         transform: scale(1);
     }
 }
+

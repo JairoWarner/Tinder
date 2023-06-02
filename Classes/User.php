@@ -267,8 +267,9 @@ public function getEmail() {
         foreach ($sql as $user) {
             echo '<div class="readList">';
             echo '<div class="buttons">';
-            echo '<a href="userDelete.php?action=delete&userId=' . $user['userId'] . '" class="deleteButton" onclick="return confirm(\'Are you sure you want to delete your account?\')">Delete</a>';
             echo '<a href="UpdateForm.php?action=update&userId=' . $user['userId'] . '" class="updateButton">Update</a>';
+            echo '<a href="userDelete.php?action=delete&userId=' . $user['userId'] . '" class="deleteButton" onclick="return confirm(\'Are you sure you want to delete your account?\')">Delete</a>';
+
             echo '</div>';
             echo '<ul>';
             echo '<li>UserID: ' . $user['userId'] . '</li>';
@@ -326,37 +327,37 @@ public function getEmail() {
 
     //user Delete
     public function deleteUser($userId)
-    {
-        require 'database/database.php';
-        // $sql = $conn->prepare('DELETE FROM users WHERE userId = :userId');
-        // $sql->bindParam(':userId', $userId);
-        // $sql->execute();
-        // Delete user and related data from multiple tables
+{
+    require 'database/database.php';
+    
+    // Prepare the SQL statements
+    $sqlDeleteLikes = $conn->prepare('DELETE FROM likes WHERE liker_id = :userId OR liked_id = :userId');
+    $sqlDeleteMatches = $conn->prepare('DELETE FROM matches WHERE user_id_1 = :userId OR user_id_2 = :userId');
+    $sqlDeleteChats = $conn->prepare('DELETE FROM chats WHERE senderId = :userId OR receiverId = :userId');
+    $sqlDeleteUser = $conn->prepare('DELETE FROM users WHERE userId = :userId');
+    
+    // Bind the parameter
+    $sqlDeleteLikes->bindParam(':userId', $userId);
+    $sqlDeleteMatches->bindParam(':userId', $userId);
+    $sqlDeleteChats->bindParam(':userId', $userId);
+    $sqlDeleteUser->bindParam(':userId', $userId);
+    
+    // Execute the delete statements
+    $sqlDeleteLikes->execute();
+    $sqlDeleteMatches->execute();
+    $sqlDeleteChats->execute();
+    $sqlDeleteUser->execute();
+    
+    // Log out the user
+    session_start();
+    session_unset();
+    session_destroy();
+    
+    // Redirect to the login or registration page
+    header("Location: registerForm.php");
+    exit();
+}
 
-        // Prepare the SQL statements
-        $sqlDeleteLikes = $conn->prepare('DELETE FROM likes WHERE liker_id = :userId OR liked_id = :userId');
-        $sqlDeleteMatches = $conn->prepare('DELETE FROM matches WHERE user_id_1 = :userId OR user_id_2 = :userId');
-        $sqlDeleteChats = $conn->prepare('DELETE FROM chats WHERE senderId = :userId OR receiverId = :userId');
-        $sqlDeleteUser = $conn->prepare('DELETE FROM users WHERE userId = :userId');
-
-
-        // Bind the parameter
-        $sqlDeleteLikes->bindParam(':userId', $userId);
-        $sqlDeleteMatches->bindParam(':userId', $userId);
-        $sqlDeleteChats->bindParam(':userId', $userId);
-        $sqlDeleteUser->bindParam(':userId', $userId);
-
-        // Execute the delete statements
-        $sqlDeleteLikes->execute();
-        $sqlDeleteMatches->execute();
-        $sqlDeleteChats->execute();
-        $sqlDeleteUser->execute();
-
-
-        //melding
-        $_SESSION['message'] = 'User ' . $userId . ' is verwijderd. <br>';
-        header("Location: account.php");
-    }
 
     public function findUser($userId) {
         require 'database/database.php';
@@ -373,7 +374,7 @@ public function getEmail() {
         require_once 'database/conn.php';
         // $likedId = rand(1, 5);
         $likedId = 5;
-    
+
         // Check if the like already exists
         $checkSql = "SELECT * FROM likes WHERE liker_id = :userId AND liked_id = :likedId";
         $checkStmt = $conn->prepare($checkSql);
@@ -426,9 +427,9 @@ public function getEmail() {
        
         }
     }
-    
-    
-    
+
+
+
 
     // get userId and put it in a session
     public function getUserIdSession($email) {

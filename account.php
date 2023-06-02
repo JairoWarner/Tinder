@@ -13,16 +13,17 @@
     <p>Dit zijn alle klant gegevens uit de database:</p>
     <div class="read">
         <?php 
-            require 'User/User.php';
+            require 'Classes/User.php';
             $email = $_SESSION['email']; // Retrieve the email from the session
 
             $user1 = new User();
             $user1->readUser($email);
         ?>
-        <div class="redirect">
+        <!-- <div class="redirect">
             <a href="swipe.php">Swipe here!</a>
-        </div>
+        </div> -->
     </div>
+    
     <div id="messagePHP"><?php
         if (isset($_SESSION['message'])) {
             echo $_SESSION['message'];

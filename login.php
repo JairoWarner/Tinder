@@ -22,7 +22,7 @@ $password = $_POST['password'];
         if (password_verify($password, $hashed_password)) {
 
             $_SESSION['email'] = $email;
-            header("Location: index.php");
+            header("Location: loggedin.php");
         } else {
             $_SESSION['message'] = 'Invalid log in credentials. Please try again.';
             header("Location: loginForm.php");

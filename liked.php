@@ -1,5 +1,5 @@
 <?php 
-    require 'User/User.php';
+    require 'Classes/User.php';
     // $userId = $_SESSION['userId']; // Retrieve the email from the session
     if (isset($_GET['userId'])) {
         $userId = $_GET['userId'];

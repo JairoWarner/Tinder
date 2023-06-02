@@ -8,16 +8,15 @@ require 'Classes/User.php';
 
 // Retrieve the userId from the session
 $userId = $_SESSION['userId'];
-var_dump($userId);
 $userObj = new User();
 $user = $userObj->findUser($userId);
 
-//if (!$user) {
-//
+// if (!$user) {
+
 //    echo "User not found.";
 //    exit();
-//
-//}
+
+// }
 
 ?>
 <!doctype html>
@@ -32,7 +31,11 @@ $user = $userObj->findUser($userId);
 </head>
 <body>
 
-
+<div class="content">
+        <div class="accountPage">     
+            <div class="tinderCard">
+                <div class="accountItems">
+                    <h1>Update</h1>
 <form method="POST" action="UpdatePost.php">
     <input type="hidden" name="userId" value="<?php echo $user['userId']; ?>">
 
@@ -87,5 +90,8 @@ $user = $userObj->findUser($userId);
         <p><a id="cancel" href="account.php">Cancel</a></p>
     </div>
 </form>
+</div>
+</div>
+</div>
 </body>
 </html>
