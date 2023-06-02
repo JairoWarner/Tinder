@@ -20,27 +20,23 @@
             $email = $_SESSION['email']; // Retrieve the email from the session
             $userId = $_SESSION['userId'];
             $user1 = new User();
-            $chat1 = new Chat();
-            $chat1->readMessage();
             $matchedUserId = $_GET['matchedUserId'];
 
-            // $matchedUserId = $user1->matchedUser($userId);
-            // $matchedUser = $user1->matchedUser($matched);
-            // $matchedUserId = $matchedUser[0]['userId'];
-            // $matchedUserIds = $user1->getMatches($userId);
+            $matchedUser = $user1->matchedUser($matchedUserId);
+        
+            if ($matchedUser !== null) {
+                $matchedUserName = $matchedUser[0]['name'];
+                echo $matchedUserName;
+            }
+            
             $searchMatchId = $user1->searchMatchId($userId, $matchedUserId);
             $matchId = $searchMatchId[0];
 
-            // $matchedUserId = $matchedUserIds;
-            // $receiverId = $matchedUser[0]['userId'];
+            $chat1 = new Chat($matchId, $userId, $matchedUserId, $matchedUserName);
+            $chat1->readMessage($matchId, $userId, $matchedUserId, $matchedUserName);
+
         ?>
-        <!-- <div id="chatbox"></div>
-        <input type="text" id="userInput" placeholder="Enter your message">
-        <input type="button" value="Send" onclick="sendMessage()"> -->
-        <!-- <form method="post" action="send_message.php" class="form">
-            <input for="chatMessage" name="chatMessage" class="chat-input" required>
-            <input type="submit" value="send" class="submitClass">
-        </form> -->
+   ==
         <form action="send_message.php" method="post">
         <input type="hidden" name="matchId" value="<?php echo $matchId; ?>">
             <input type="hidden" name="senderId" value="<?php echo $userId; ?>">

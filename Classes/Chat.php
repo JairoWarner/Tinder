@@ -38,28 +38,33 @@ class Chat {
 
     }
 
-
-    //Read
-    public function readMessage() {
-        //code to show messages
+    //read 
+    public function readMessage($matchId, $userId, $matchedUserId, $matchedUserName) {
+        // Code to show messages
         require 'database/database.php';
         
-        $statement = $conn->prepare("SELECT sender_id, message, timestamp FROM chats WHERE matchId = :matchId ORDER BY timestamp ASC");
+        $statement = $conn->prepare("SELECT senderId, message, timestamp FROM chats WHERE matchId = :matchId ORDER BY timestamp ASC");
         $statement->bindValue(':matchId', $matchId);
         $statement->execute();
-
+    
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $sender = $row['sender_id'];
+            $sender = $row['senderId'];
             $messageText = $row['message'];
             $timestamp = $row['timestamp'];
-
+    
             echo '<div class="message">';
-            echo '<span class="sender">Sender: ' . $sender . '</span><br>';
-            echo $messageText . '<br>';
-            echo '<span class="timestamp">Timestamp: ' . $timestamp . '</span>';
+            if ($sender == $userId) {
+                echo '<span class="sender">You:</span><br>';
+                echo '<div class="your-message">' . $messageText . '</div>';
+            } else if ($sender == $matchedUserId) {
+                echo '<span class="sender">' . $matchedUserName . ': </span><br>';
+                echo '<div class="other-message">' . $messageText . '</div>';
+            }
+            echo '<span class="timestamp">' . $timestamp . '</span>';
             echo '</div>';
         }
     }
+    
 }
     
 
