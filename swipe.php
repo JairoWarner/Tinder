@@ -13,7 +13,7 @@
     <div class="swipe">
 
         <?php 
-            require 'User/User.php';
+            require 'Classes/User.php';
             $email = $_SESSION['email']; // Retrieve the email from the session
 
             $user1 = new User();

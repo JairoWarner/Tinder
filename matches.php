@@ -13,7 +13,7 @@
     <div class="swipe">
 
         <?php 
-            require 'User/User.php';
+            require 'Classes/User.php';
             $email = $_SESSION['email']; // Retrieve the email from the session
 
             $user1 = new User();
@@ -25,13 +25,26 @@
 
     ?>
     <?php
+        // require 'Classes/User.php';
+
         $userId = $_SESSION['userId']; // Retrieve the user ID from the session
         $user = new User();
         $matchedUserIds = $user->getMatches($userId);
-        
+        // var_dump($matchedUserIds)
         if (!empty($matchedUserIds)) {
             foreach ($matchedUserIds as $matchedUserId) {
-                $user->matchedUser($matchedUserId);
+                $matchedUser = $user->matchedUser($matchedUserId);
+                // var_dump($matchedUser);
+        
+                if ($matchedUser !== null) {
+                    $matchedUserName = $matchedUser[0]['name'];
+        
+                    // Construct the URL with matchedUserId as a query parameter
+                    $url = "chatForm.php?action=chat&matchedUserId=" . urlencode($matchedUserId);
+        
+                    // Output the link and additional user information
+                    echo '<li><a href="' . $url . '">Name: ' . $matchedUserName . '</a></li>';
+                }
             }
         } else {
             echo "No matches found.";

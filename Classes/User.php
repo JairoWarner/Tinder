@@ -372,7 +372,7 @@ public function getEmail() {
     public function userLike($userId) {
         require_once 'database/conn.php';
         // $likedId = rand(1, 5);
-        $likedId = 5;
+        $likedId = 9;
     
         // Check if the like already exists
         $checkSql = "SELECT * FROM likes WHERE liker_id = :userId AND liked_id = :likedId";
@@ -467,7 +467,7 @@ public function getEmail() {
 
 
     // retrieve information about other users using their ID
-    public function matchedUser($userId) {
+    public function matchedUser($matchedUserId) {
         require 'database/database.php';
         $sql = $conn->prepare('SELECT * FROM users WHERE userId = :userId');
         $sql->bindParam(':userId', $matchedUserId);
@@ -498,6 +498,16 @@ public function getEmail() {
         return $users;
     }
 
+    public function searchMatchId($userId, $matchedUserId) {
+        require 'database/database.php';
+        $sql = $conn->prepare("SELECT matchId FROM matches WHERE (user_id_1 = :userId AND user_id_2 = :matchedUserId) OR (user_id_1 = :matchedUserId AND user_id_2 = :userId)");
+        $sql->bindParam(':userId', $userId);
+        $sql->bindParam(':matchedUserId', $matchedUserId);
+        $sql->execute();
+        $matchId = $sql->fetchAll(PDO::FETCH_COLUMN);
+        return $matchId;
+    }
+    
     
     
 
