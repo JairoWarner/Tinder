@@ -23,12 +23,12 @@
             $matchedUserId = $_GET['matchedUserId'];
 
             $matchedUser = $user1->matchedUser($matchedUserId);
-        
             if ($matchedUser !== null) {
                 $matchedUserName = $matchedUser[0]['name'];
-                echo $matchedUserName;
+                echo '<div class="headerName"><a href="UserInfo.php?action=chat&matchedUserId=' . $matchedUserId . '">' . $matchedUserName . '</a></div>';
             }
             
+
             $searchMatchId = $user1->searchMatchId($userId, $matchedUserId);
             $matchId = $searchMatchId[0];
 
@@ -36,7 +36,6 @@
             $chat1->readMessage($matchId, $userId, $matchedUserId, $matchedUserName);
 
         ?>
-   ==
         <form action="send_message.php" method="post">
         <input type="hidden" name="matchId" value="<?php echo $matchId; ?>">
             <input type="hidden" name="senderId" value="<?php echo $userId; ?>">
