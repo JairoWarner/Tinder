@@ -51,17 +51,30 @@ class Chat {
             $sender = $row['senderId'];
             $messageText = $row['message'];
             $timestamp = $row['timestamp'];
-    
+            // Create a DateTime object from the timestamp
+            $date = new DateTime($timestamp);
+
+            // Format the DateTime object to display only the time
+            $time = $date->format('H:i'); // 'H' represents 24-hour format, 'i' represents minutes, 's' represents seconds
+            echo "<div class='messageContent'>";
             echo '<div class="message">';
             if ($sender == $userId) {
+                echo '<div class="your-message">'; 
                 echo '<span class="sender">You:</span><br>';
-                echo '<div class="your-message">' . $messageText . '</div>';
+                echo '<div class="text">' . $messageText . '</div>';
+                echo '<span class="timestamp">' . $time . '</span>';
+                echo '</div>';
             } else if ($sender == $matchedUserId) {
+                echo '<div class="other-message">';
                 echo '<span class="sender">' . $matchedUserName . ': </span><br>';
-                echo '<div class="other-message">' . $messageText . '</div>';
-            }
-            echo '<span class="timestamp">' . $timestamp . '</span>';
+                echo '<div class="text">' . $messageText . '</div>';
+                echo '<span class="timestamp">' . $time . '</span>';
             echo '</div>';
+
+            }
+            echo '</div>';
+            echo '</div>';
+
         }
     }
     

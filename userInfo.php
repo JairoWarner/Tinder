@@ -7,12 +7,11 @@
     <link rel="stylesheet" href="includes/main.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <title>Chat</title>
+    <title>UserInfo</title>
 </head>
 <body>
 <?php require 'includes/header.php'?>
 <div class="divRead">
-    <p>Chat:</p>
     <div class="read">
         <?php 
             require 'Classes/User.php';

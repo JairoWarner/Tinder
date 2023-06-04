@@ -243,3 +243,144 @@ nav .dropdown:hover .dropdown-content {
         transform: scale(1);
     }
 }
+
+/* Chat */
+.headerName {
+    font-size: large;
+    font-weight: bolder;
+}
+.chatContainer{
+    margin: 10px;
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    
+}
+.chatForm {
+    margin: 10px;
+    padding: 10px;
+    width: 400px;
+    height: 500px;
+    /* display: grid;
+    place-content: center; */
+    box-shadow: 10px 10px 50px rgb(0, 0, 0);
+    overflow-y: scroll;
+    border-radius: 14px;
+}
+.messageContent {
+    display: grid;
+    grid-template-areas: "message";
+    /* box-shadow: 10px 10px 50px rgb(0, 0, 0); */
+    border-radius: 10px;
+}
+.message {
+    margin: 10px;
+    padding: 10px;
+}
+.text {
+    padding: 2px;
+    margin: 2px;
+}
+.sender {
+    color: #000000;
+    font-weight: bolder;
+
+}
+
+.your-message,
+.other-message {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  min-width: 20px;
+  max-width: 200px;
+  
+  position: relative;
+  color: rgb(222, 217, 217);
+}
+
+.other-message {
+  background-color: grey;
+  margin-right: 100px;
+  grid-area: message;
+  justify-self: start;
+}
+
+.your-message {
+  background-color: green;
+  margin-left: 100px;
+  grid-area: message;
+  justify-self: end;
+}
+
+.timestamp {
+  margin: 2px;
+  padding: 2px;
+  color: rgb(165, 161, 161);
+  font-size: 12px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+}
+
+/* .your-message,
+.other-message {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  min-width: 20px;
+  max-width: 200px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.other-message {
+  background-color: grey;
+  margin-right: 100px;
+}
+
+.your-message {
+  background-color: green;
+  margin-left: 100px;
+}
+
+.timestamp {
+  margin: 2px;
+  padding: 2px;
+  color: rgb(165, 161, 161);
+  font-size: 12px;
+  align-self: flex-end;
+  flex-basis: 100%;
+}
+ */
+
+ .sendMessage{
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    /* background-color: grey; */
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+ }
+
+ .sendMessage textarea {
+    /* padding: 10px; */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-height: 40px;
+    resize: vertical;
+    resize: none;
+  }
+  
+  .sendMessage button {
+    /* padding: 10px 20px; */
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

@@ -11,9 +11,8 @@
 </head>
 <body>
 <?php require 'includes/header.php'?>
-<div class="divRead">
-    <p>Chat:</p>
-    <div class="read">
+<div class="chatContainer">
+
         <?php 
             require 'Classes/User.php';
             require 'Classes/Chat.php';
@@ -27,6 +26,10 @@
                 $matchedUserName = $matchedUser[0]['name'];
                 echo '<div class="headerName"><a href="UserInfo.php?action=chat&matchedUserId=' . $matchedUserId . '">' . $matchedUserName . '</a></div>';
             }
+            ?>
+    <div class="chatForm">
+
+            <?php
             
 
             $searchMatchId = $user1->searchMatchId($userId, $matchedUserId);
@@ -36,22 +39,30 @@
             $chat1->readMessage($matchId, $userId, $matchedUserId, $matchedUserName);
 
         ?>
-        <form action="send_message.php" method="post">
-        <input type="hidden" name="matchId" value="<?php echo $matchId; ?>">
-            <input type="hidden" name="senderId" value="<?php echo $userId; ?>">
-            <input type="hidden" name="receiverId" value="<?php echo $matchedUserId; ?>">
-            <textarea name="message" placeholder="Enter your message"></textarea>
-            <button type="submit">Send</button>
-        </form>
+        <div class="sendMessage">
+            <form action="send_message.php" method="post">
+            <input type="hidden" name="matchId" value="<?php echo $matchId; ?>">
+                <input type="hidden" name="senderId" value="<?php echo $userId; ?>">
+                <input type="hidden" name="receiverId" value="<?php echo $matchedUserId; ?>">
+                <textarea name="message" placeholder="Enter your message" required></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
 
 
     </div>
+        </div>
     <div id="messagePHP"><?php
         if (isset($_SESSION['message'])) {
             echo $_SESSION['message'];
             unset($_SESSION['message']);
         }
     ?>
+    <script>
+        var chatForm = document.querySelector('.chatForm');
+chatForm.scrollTop = chatForm.scrollHeight;
+
+        </script>
 <!-- <script>
             function loadMessages() {
             // Fetch chat messages from the database using AJAX
@@ -105,44 +116,11 @@
 
 </script> -->
 <style>
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .message {
-            margin-bottom: 10px;
-        }
-
-        .sender {
-            font-weight: bold;
-        }
-
-        .timestamp {
-            color: #888;
-            font-size: 12px;
-        }
-
-        .chat-input {
-            display: flex;
-        }
-
-        .chat-input input[type="text"] {
-            flex: 1;
-            padding: 5px;
-        }
-
-        .chat-input input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+    form{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
         </style>
 
     
