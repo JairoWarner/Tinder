@@ -19,10 +19,11 @@
             $user1 = new User();
             $user1->readUser($email);
         ?>
-        <div class="redirect">
+        <!-- <div class="redirect">
             <a href="swipe.php">Swipe here!</a>
-        </div>
+        </div> -->
     </div>
+    
     <div id="messagePHP"><?php
         if (isset($_SESSION['message'])) {
             echo $_SESSION['message'];
