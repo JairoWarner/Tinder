@@ -260,7 +260,8 @@ nav .dropdown:hover .dropdown-content {
     margin: 10px;
     padding: 10px;
     width: 400px;
-    height: 500px;
+    min-height: 100px;
+    max-height: 500px;
     /* display: grid;
     place-content: center; */
     box-shadow: 10px 10px 50px rgb(0, 0, 0);
@@ -268,6 +269,7 @@ nav .dropdown:hover .dropdown-content {
     border-radius: 14px;
 }
 .messageContent {
+    min-height: 50px;
     display: grid;
     grid-template-areas: "message";
     /* box-shadow: 10px 10px 50px rgb(0, 0, 0); */
@@ -294,21 +296,40 @@ nav .dropdown:hover .dropdown-content {
   border-radius: 10px;
   min-width: 20px;
   max-width: 200px;
-  
+  display: flex;
+  flex-direction: row;
   position: relative;
   color: rgb(222, 217, 217);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+
+}
+.messageText, .infoDiv {
+    display: flex;
+    flex-direction: column;
 }
 
+.infoDiv {
+    height: 20px;
+    width: 20px;
+
+}
+.bx-dots-vertical-rounded{
+    margin: 2px;
+  padding: 2px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 .other-message {
   background-color: grey;
-  margin-right: 100px;
+  margin-right: 120px;
   grid-area: message;
   justify-self: start;
 }
 
 .your-message {
   background-color: green;
-  margin-left: 100px;
+  margin-left: 120px;
   grid-area: message;
   justify-self: end;
 }
@@ -363,6 +384,7 @@ nav .dropdown:hover .dropdown-content {
     border-radius: 10px;
     display: flex;
     flex-direction: row;
+    
  }
 
  .sendMessage textarea {
@@ -383,4 +405,13 @@ nav .dropdown:hover .dropdown-content {
     border-radius: 5px;
     cursor: pointer;
   }
-  
+  .date-header {
+    padding: 4px;
+    width: min-content;
+    margin-left: 42%;
+    color: rgb(111, 110, 110);
+    font-size: 14px;
+    background-color: #aeaaaa;
+    border-radius: 10px;
+    /* min-width: 10px; */
+  }
