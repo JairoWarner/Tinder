@@ -34,7 +34,6 @@
         if (!empty($matchedUserIds)) {
             foreach ($matchedUserIds as $matchedUserId) {
                 $matchedUser = $user->matchedUser($matchedUserId);
-                // var_dump($matchedUser);
         
                 if ($matchedUser !== null) {
                     $matchedUserName = $matchedUser[0]['name'];
