@@ -25,7 +25,7 @@ $password = $_POST['password'];
 <<<<<<< HEAD
             header("Location: loggedIn.php");
 =======
-            header("Location: loggedin.php");
+            header("Location: loggedIn.php");
 >>>>>>> be5292f896497eb99fe57ce7cb95cd6de7052392
         } else {
             $_SESSION['message'] = 'Invalid log in credentials. Please try again.';
