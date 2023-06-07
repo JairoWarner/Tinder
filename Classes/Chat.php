@@ -1,6 +1,5 @@
 <?php
 class Chat {
-    // public $chatId;
     public $matchId;
     public $senderId;
     public $receiverId;
@@ -8,19 +7,17 @@ class Chat {
     public $timestamp = NULL;
 
 
-    public function __construct($matchId, $senderId, $receiverId, $message) {
-        // $this->chatId = $chatId;
+    public function __construct($matchId= NULL, $senderId= NULL, $receiverId= NULL, $message= NULL) {
         $this->matchId = $matchId;
         $this->senderId = $senderId;
         $this->receiverId = $receiverId;
         $this->message = $message;
-        // $this->timestamp = $timestamp;
     }
 
-    //Create
+    // Create a new chat message
     public function sendMessage() {
         // Code to store the message in a file or database
-       require 'database/database.php';
+        require 'database/database.php';
 
         $statement = $conn->prepare("
             INSERT INTO chats (matchId, senderId, receiverId, message) 
@@ -35,38 +32,40 @@ class Chat {
         $redirectUrl = "chatForm.php?action=chat&matchedUserId=" . $this->receiverId;
         header("Location: " . $redirectUrl);
         $_SESSION['message'] = "send your message";
-
     }
 
-    //read 
+    // Read chat messages
     public function readMessage($matchId, $userId, $matchedUserId, $matchedUserName) {
-        // Code to show messages
+        // Code to retrieve and display messages
         require 'database/database.php';
         
-        $statement = $conn->prepare("SELECT senderId, message, timestamp FROM chats WHERE matchId = :matchId ORDER BY timestamp ASC");
+        $statement = $conn->prepare("SELECT senderId, message, chatId, timestamp FROM chats WHERE matchId = :matchId ORDER BY timestamp ASC");
         $statement->bindValue(':matchId', $matchId);
         $statement->execute();
     
         $previousDate = null; // Variable to store the previous date
 
-
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
             $sender = $row['senderId'];
             $messageText = $row['message'];
             $timestamp = $row['timestamp'];
+            $chatId = $row['chatId'];
+            
             // Create a DateTime object from the timestamp
             $date = new DateTime($timestamp);
             $currentDate = $date->format('d/m/Y');
 
             // Format the DateTime object to display only the time
             $time = $date->format('H:i'); // 'H' represents 24-hour format, 'i' represents minutes, 's' represents seconds
+            
             echo "<div class='messageContent'>";
-               // Echo the date header if the current date is different from the previous date
-        if ($currentDate !== $previousDate) {
-            echo '<div class="date-header">' . $currentDate . '</div>';
-            $previousDate = $currentDate;
-        }
+            // Echo the date header if the current date is different from the previous date
+            if ($currentDate !== $previousDate) {
+                echo '<div class="date-header">' . $currentDate . '</div>';
+                $previousDate = $currentDate;
+            }
             echo '<div class="message">';
+            
             if ($sender == $userId) {
                 echo '<div class="your-message">'; 
                 echo '<div class="messageText">';
@@ -74,7 +73,8 @@ class Chat {
                 echo '<div class="text">' . $messageText . '</div>';
                 echo '</div>';
                 echo '<div class="infoDiv">';
-                echo "<i id='dots' class='bx bx-dots-vertical-rounded'><button><p id='delete'></p><p id='update'></p></button></i>";
+                echo "<a href='chatDelete.php?action=delete&chatId=" . $chatId . "&matchedUserId=" . $matchedUserId . "' class='deleteButton' onclick=\"return confirm('Are you sure you want to delete this artikel?')\"><i class='bx bxs-trash'></i></a>";
+                echo "<a href='chatUpdate.php?action=update&chatId=" . $chatId . "&matchedUserId=" . $matchedUserId . "' class='deleteButton' onclick=\"return confirm('Are you sure you want to delete this artikel?')\"><i class='bx bxs-edit-alt'></i></a>";
                 echo '<span class="timestamp">' . $time . '</span>';
                 echo '</div>';
                 echo '</div>';
@@ -85,21 +85,25 @@ class Chat {
                 echo '<div class="text">' . $messageText . '</div>';
                 echo '</div>';
                 echo '<div class="infoDiv">';
-                echo "<i id='dots' class='bx bx-dots-vertical-rounded'><button><p id='delete'></p><p id='update'></p></button></i>";
-                // echo '<div id="delete">';
                 echo '<span class="timestamp">' . $time . '</span>';
-            echo '</div>';
-
+                echo '</div>';
                 echo '</div>';
             }
             echo '</div>';
             echo '</div>';
         }
     }
+
+    // Delete a chat message using chat ID
+    public function deleteChat($chatId, $matchedUserId) {
+        require 'database/database.php';
+        $sql = $conn->prepare('DELETE FROM chats WHERE chatId = :chatId');
+        $sql->bindParam(':chatId', $chatId);
+        $sql->execute();
     
+        // Melding
+        $_SESSION['message'] = 'De chat ' . $chatId . ' is verwijderd. <br>';
+        header("Location: chatForm.php?action=chat&matchedUserId=" . $matchedUserId);
+    }
 }
-    
-
-
-
 ?>

@@ -161,34 +161,6 @@ include("includes/header.php");
     </div>
 </main>
 
-<!-- <script>
-    $(document).ready(function() {
-      $('#country, #postcode').on('input', function() {
-        var country = $('#country').val();
-        var postcode = $('#postcode').val();
-
-        if (country && postcode) {
-          var address = postcode + ', ' + country;
-          var geocoder = new google.maps.Geocoder();
-
-          geocoder.geocode({ address: address }, function(results, status) {
-            if (status === google.maps.GeocoderStatus.OK) {
-              var options = '';
-              results.forEach(function(result) {
-                options += '<option value="' + result.formatted_address + '">' + result.formatted_address + '</option>';
-              });
-              $('#address').html(options);
-            } else {
-              $('#address').html('<option value="">No addresses found</option>');
-            }
-          });
-        } else {
-          $('#address').html('');
-        }
-      });
-    });
-  </script> -->
-
 <script>
 function updateAgeRange() {
   var minAge = parseInt(document.getElementById("minAge").value);
@@ -207,10 +179,6 @@ function updateAgeRange() {
   var rangeWidth = ageSlider.clientWidth;
   var minPercent = ((minAge - 18) / 82) * 100;
   var maxPercent = ((maxAge - 18) / 82) * 100;
-
-//   var draggableMin = document.getElementById("draggableMin");
-//   var draggableMax = document.getElementById("draggableMax");
-
 
   var ageRangeLabel = document.getElementById("ageRangeLabel");
   ageRangeLabel.innerHTML = "Min Age: " + minAge + " | Max Age: " + maxAge;

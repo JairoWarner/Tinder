@@ -21,6 +21,7 @@ if (isset($_POST['register'])) {
     $leeftijd = $_POST['leeftijd'];
     $ageRange = $_POST['ageRange'];
     $bio = $_POST['bio'];
+    
 
 
     // Check if the username is already taken

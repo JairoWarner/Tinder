@@ -1,39 +1,32 @@
 <?php
-require 'database/conn.php';
-$email = $_POST['email'];
-$password = $_POST['password'];
+require 'database/conn.php'; // Include the conn.php file for database connection
+$email = $_POST['email']; // Retrieve the email from the submitted form
+$password = $_POST['password']; // Retrieve the password from the submitted form
 
+// Prepare SQL statement
+$stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
+$stmt->bindParam(':email', $email);
 
-    // Set PDO error mode to exception
-    // $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// Execute statement
+$stmt->execute();
 
-    // Prepare SQL statement
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-    $stmt->bindParam(':email', $email);
+// Fetch the first row
+$results = $stmt->fetch();
 
-    // Execute statement
-    $stmt->execute();
+if (!empty($results)) { // Check if the result is not empty
+    $hashed_password = $results['password']; // Retrieve the hashed password from the result
 
-    // Fetch all rows
-    $results = $stmt->fetch();
+    if (password_verify($password, $hashed_password)) { // Verify the submitted password with the hashed password
 
-    if (!empty($results)) {
-        $hashed_password = $results['password'];    
-        if (password_verify($password, $hashed_password)) {
+        $_SESSION['email'] = $email; // Set the email in the session
 
-            $_SESSION['email'] = $email;
-<<<<<<< HEAD
-            header("Location: loggedIn.php");
-=======
-            header("Location: loggedIn.php");
->>>>>>> be5292f896497eb99fe57ce7cb95cd6de7052392
-        } else {
-            $_SESSION['message'] = 'Invalid log in credentials. Please try again.';
-            header("Location: loginForm.php");
-        }
+        header("Location: loggedIn.php"); // Redirect to the loggedIn.php page
     } else {
-        $_SESSION['message'] = "Account doesn't exist. Please try again.";
-        header("Location: loginForm.php");
-    };
-
+        $_SESSION['message'] = 'Invalid log in credentials. Please try again.'; // Set an error message in the session
+        header("Location: loginForm.php"); // Redirect to the loginForm.php page
+    }
+} else {
+    $_SESSION['message'] = "Account doesn't exist. Please try again."; // Set an error message in the session
+    header("Location: loginForm.php"); // Redirect to the loginForm.php page
+}
 ?>

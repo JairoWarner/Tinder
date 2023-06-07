@@ -10,63 +10,70 @@
     <title>Chat</title>
 </head>
 <body>
-<?php require 'includes/header.php'?>
+<?php require 'includes/header.php'?> <!-- Include the header.php file -->
 <div class="chatContainer">
 
     <?php 
-        require 'Classes/User.php';
-        require 'Classes/Chat.php';
+        require 'Classes/User.php'; // Include the User.php file
+        require 'Classes/Chat.php'; // Include the Chat.php file
+
         $email = $_SESSION['email']; // Retrieve the email from the session
+
         if (!isset($_SESSION['email'])) {
             $_SESSION['message'] = "Please log in first.";
-            header("Location: loginForm.php");
+            header("Location: loginForm.php"); // Redirect to the login form page
             exit;
         }
-        $userId = $_SESSION['userId'];
-        $user1 = new User();
-        $matchedUserId = $_GET['matchedUserId'];
 
-        $matchedUser = $user1->matchedUser($matchedUserId);
-        if ($matchedUser !== null) {
-            $matchedUserName = $matchedUser[0]['name'];
-            echo '<div class="headerName"><a href="UserInfo.php?action=chat&matchedUserId=' . $matchedUserId . '">' . $matchedUserName . '</a></div>';
+        $userId = $_SESSION['userId']; // Retrieve the userId from the session
+
+        $user1 = new User(); // Create a new instance of the User class
+
+        $matchedUserId = $_GET['matchedUserId']; // Retrieve the matchedUserId from the URL
+
+        $matchedUser = $user1->matchedUser($matchedUserId); // Get the matched user's information
+        
+        if ($matchedUser !== null) { // Check if the matched user exists
+            $matchedUserName = $matchedUser[0]['name']; // Get the matched user's name
+
+            echo '<div class="headerName"><a href="UserInfo.php?action=chat&matchedUserId=' . $matchedUserId . '">' . $matchedUserName . '</a></div>'; // Output the matched user's name with a link
         }
-        ?>
-        <div class="chatForm">
-            <div class="messageContent">
-                <?php
-                
+    ?>
 
-                $searchMatchId = $user1->searchMatchId($userId, $matchedUserId);
-                $matchId = $searchMatchId[0];
+    <div class="chatForm">
+        <div class="messageContent">
+            <?php
+                $searchMatchId = $user1->searchMatchId($userId, $matchedUserId); // Search for the matchId based on userId and matchedUserId
+                $matchId = $searchMatchId[0]; // Get the matchId
 
-                $chat1 = new Chat($matchId, $userId, $matchedUserId, $matchedUserName);
-                $chat1->readMessage($matchId, $userId, $matchedUserId, $matchedUserName);
-
-                ?>
+                $chat1 = new Chat($matchId, $userId, $matchedUserId, $matchedUserName); // Create a new instance of the Chat class
+                $chat1->readMessage($matchId, $userId, $matchedUserId, $matchedUserName); // Read the messages for the conversation
+            ?>
             
-                <div class="sendMessage">
-                    <form action="send_message.php" method="post" id="messageForm">
+            <div class="sendMessage">
+                <form action="send_message.php" method="post" id="messageForm">
                     <input type="hidden" name="matchId" value="<?php echo $matchId; ?>">
-                        <input type="hidden" name="senderId" value="<?php echo $userId; ?>">
-                        <input type="hidden" name="receiverId" value="<?php echo $matchedUserId; ?>">
-                        <textarea id="message" name="message" placeholder="Enter your message" required></textarea>
-                        <span id="charCount"></span>
-                        <button type="submit">Send</button>
-                    </form>
-                    
-                </div>
+                    <input type="hidden" name="senderId" value="<?php echo $userId; ?>">
+                    <input type="hidden" name="receiverId" value="<?php echo $matchedUserId; ?>">
+                    <textarea id="message" name="message" placeholder="Enter your message" required></textarea>
+                    <span id="charCount"></span>
+                    <button type="submit">Send</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
-<div id="messagePHP"><?php
-    if (isset($_SESSION['message'])) {
-        echo $_SESSION['message'];
-        unset($_SESSION['message']);
-    }
-?>
-    <script>
+
+<div id="messagePHP">
+    <?php
+        if (isset($_SESSION['message'])) {
+            echo $_SESSION['message']; // Display any session message
+            unset($_SESSION['message']); // Remove the session message
+        }
+    ?>
+</div>
+
+<script>
     const messageInput = document.getElementById('message');
     const charCount = document.getElementById('charCount');
     const messageForm = document.getElementById('messageForm');
@@ -85,83 +92,13 @@
             messageForm.onsubmit = null;
         }
     });
-        var chatForm = document.querySelector('.chatForm');
-        chatForm.scrollTop = chatForm.scrollHeight;
-        const dots = document.getElementById('dots');
-        const deleteElement = document.querySelector('delete');
-        const update = document.querySelector('update');
-        let isClicked = false;
 
-        dots.addEventListener('click', () => {
-        if(isClicked) {
-            deleteElement.innerHTML = '';
-            update.innerHTML = '';
-            dots.classList.remove('opened');
-            isClicked = false;
-            console.log($isClicked)
-        } else {
-            deleteElement.innerHTML = "<a href='deleteChat.php?action=chat&matchedUserId=' . $matchedUserId . ''>' . $matchedUserName . '</a>";
-            update.innerHTML = "<a href='deleteChat.php?action=chat&matchedUserId=' . $matchedUserId . ''>' . $matchedUserName . '</a>";
-            dots.classList.add('opened');
-            isClicked = true;
-        }
-        
-    });
-        </script>
-<!-- <script>
-        //     function loadMessages() {
-        //     // Fetch chat messages from the database using AJAX
-        //     $.ajax({
-        //         url: 'fetch_messages.php',
-        //         method: 'GET',
-        //         dataType: 'json',
-        //         success: function(response) {
-        //             // Display the chat messages on the page
-        //             var chatContainer = $('#chat-container');
-        //             chatContainer.empty();
+    var chatForm = document.querySelector('.chatForm');
+    chatForm.scrollTop = chatForm.scrollHeight;
+</script>
 
-        //             for (var i = 0; i < response.length; i++) {
-        //                 var message = response[i];
-        //                 var sender = message.senderId;
-        //                 var messageText = message.message;
-        //                 var timestamp = message.timestamp;
-
-        //                 var messageDiv = $('<div class="message">');
-        //                 var senderSpan = $('<span class="sender">').text('Sender: ' + sender);
-        //                 var messageTextDiv = $('<div>').text(messageText);
-        //                 var timestampSpan = $('<span class="timestamp">').text('Timestamp: ' + timestamp);
-
-        //                 messageDiv.append(senderSpan, messageTextDiv, timestampSpan);
-        //                 chatContainer.append(messageDiv);
-        //             }
-
-        //             // Scroll to the bottom of the chat container
-        //             chatContainer.scrollTop(chatContainer[0].scrollHeight);
-        //         }
-        //     });
-        // }
-
-        //     // Function to send a chat message
-        //     function sendMessage() {
-        //     var messageInput = $('#message-input');
-        //     var chatMessage = messageInput.val();
-
-        //     // Send the chat message to the database using AJAX
-        //     $.ajax({
-        //         url: 'send_message.php',
-        //         method: 'POST',
-        //         data: { chatMessage: chatMessage },
-        //         success: function() {
-        //             // Clear the input field and reload messages
-        //             messageInput.val('');
-        //             loadMessages();
-        //         }
-        //     });
-        // }
-
-</script> -->
 <style>
-    form{
+    form {
         display: flex;
         flex-direction: row;
         width: 100%;
@@ -169,6 +106,6 @@
 </style>
 
     
-<?php require 'includes/footer.php'?>
+<?php require 'includes/footer.php'?> <!-- Include the footer.php file -->
 </body>
 </html>

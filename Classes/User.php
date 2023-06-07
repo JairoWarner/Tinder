@@ -215,63 +215,25 @@ public function getEmail() {
     //create
 
 
-    //read
-    // public function readUser($email)
-    // {
-    //     require_once 'database/database.php';
-    //     $sql = $conn->prepare('SELECT * FROM users WHERE email = :email');
-    //     $sql->execute();
-
-    //     foreach($sql as $student) {
-    //         echo '<br>';
-    //         echo $student['studentId']. ' - ';
-    //         echo $this->naam=$student['naam'].' - ';
-    //         echo $this->opleiding=$student['opleiding'].' - ';
-    //         echo $this->postcode=$student['postcode'].' - ';
-    //         echo $this->telefoonnummer=$student['Telefoonnummer'].' - ';
-    //         echo '<br>';
-
-
-    //     }
-    //     global $conn; // Use the $conn variable from database.php
-    
-    //     $query = "SELECT * FROM users WHERE email = :email";
-    //     $statement = $conn->prepare($query);
-    //     $email = $this->getEmail(); // Assign the value to a separate variable
-    //     $statement->bindParam(':email', $email); // Pass the variable to bindParam
-    //     $statement->execute();
-    //     $rows = $statement->fetchAll(PDO::FETCH_ASSOC); // Fetch all rows
-
-    //     foreach ($rows as $row) {
-    //         $this->setNaam($row['naam']);
-    //         $this->setAchternaam($row['achternaam']);
-    //         $this->setGeboorteDatum($row['geboorteDatum']);
-    //         $this->setGeslacht($row['geslacht']);
-    //         $this->setLocatie($row['locatie']);
-    
-    //         // Display the information here, or you can store it in an array or object for later use
-    //         echo "Name: " . $this->getNaam() . "<br>";
-    //         echo "Last Name: " . $this->getAchternaam() . "<br>";
-    //         echo "Birth Date: " . $this->getGeboorteDatum() . "<br>";
-    //         echo "Gender: " . $this->getGeslacht() . "<br>";
-    //         echo "Location: " . $this->getLocatie() . "<br>";
-    //         echo "<br>";
-    //     }
-    // }
+    // Read User
+    // This function reads user information from the database based on the provided email.
     public function readUser($email) {
-    require_once 'database/database.php';
-    $sql = $conn->prepare('SELECT * FROM users WHERE email = :email');
-    $sql->bindParam(':email', $email);
-    $sql->execute();
+        require_once 'database/database.php'; // Including the database configuration file
 
-        foreach ($sql as $user) {
-            echo '<div class="readList">';
-            echo '<div class="buttons">';
-            echo '<a href="UpdateForm.php?action=update&userId=' . $user['userId'] . '" class="updateButton">Update</a>';
-            echo '<a href="userDelete.php?action=delete&userId=' . $user['userId'] . '" class="deleteButton" onclick="return confirm(\'Are you sure you want to delete your account?\')">Delete</a>';
+        $sql = $conn->prepare('SELECT * FROM users WHERE email = :email'); // Prepare a SQL statement to retrieve user information based on email
+        $sql->bindParam(':email', $email); // Bind the email parameter to the prepared statement
+        $sql->execute(); // Execute the prepared statement
 
-            echo '</div>';
-            echo '<ul>';
+        foreach ($sql as $user) { // Iterate through the result set
+            echo '<div class="readList">'; // Output a div element with the class "readList"
+            echo '<div class="buttons">'; // Output a div element with the class "buttons"
+            echo '<a href="UpdateForm.php?action=update&userId=' . $user['userId'] . '" class="updateButton">Update</a>'; // Output an anchor element for updating the user with a specific user ID
+            echo '<a href="userDelete.php?action=delete&userId=' . $user['userId'] . '" class="deleteButton" onclick="return confirm(\'Are you sure you want to delete your account?\')">Delete</a>'; // Output an anchor element for deleting the user with a specific user ID, with a confirmation dialog
+
+            echo '</div>'; // Close the "buttons" div element
+            echo '<ul>'; // Output an unordered list element
+
+            // Output individual list items with user information
             echo '<li>UserID: ' . $user['userId'] . '</li>';
             echo '<li>Email: ' . $user['email'] . '</li>';
             echo '<li>Name: ' . $user['naam'] . '</li>';
@@ -287,50 +249,41 @@ public function getEmail() {
             echo '<li>Age: ' . $user['leeftijd'] . '</li>';
             echo '<li>Age Range: ' . $user['ageRange'] . '</li>';
             echo '<li>Bio: ' . $user['bio'] . '</li>';
-            echo '</ul>';
-            echo '</div>';
-            echo '<br>';
+
+            echo '</ul>'; // Close the unordered list element
+            echo '</div>'; // Close the "readList" div element
+            echo '<br>'; // Output a line break
         }
     }
 
-    //user update
-    public function updateuser($userId, $naam, $achternaam, $geboorteDatum, $geslacht, $locatie, $sexualOri, $schoolBaan, $interesses, $fotos, $showMe, $leeftijd, $ageRange, $bio, $email, $password)
-    {
-        require 'database/conn.php';
-        $sql = $conn->prepare('UPDATE users SET naam = :naam, achternaam = :achternaam, geboorteDatum = :geboorteDatum, geslacht = :geslacht, locatie = :locatie, sexualOri = :sexualOri, schoolBaan = :schoolBaan, interesses = :interesses, fotos = :fotos, showMe = :showMe, leeftijd = :leeftijd, ageRange = :ageRange, bio = :bio, email = :email, password = :password WHERE userId = :userId');
 
-        $sql->bindParam(':userId', $userId);
-        $sql->bindParam(':naam', $naam);
-        $sql->bindParam(':achternaam', $achternaam);
-        $sql->bindParam(':geboorteDatum', $geboorteDatum);
-        $sql->bindParam(':geslacht', $geslacht);
-        $sql->bindParam(':locatie', $locatie);
-        $sql->bindParam(':sexualOri', $sexualOri);
-        $sql->bindParam(':schoolBaan', $schoolBaan);
-        $sql->bindParam(':interesses', $interesses);
-        $sql->bindParam(':fotos', $fotos);
-        $sql->bindParam(':showMe', $showMe);
-        $sql->bindParam(':leeftijd', $leeftijd);
-        $sql->bindParam(':ageRange', $ageRange);
-        $sql->bindParam(':bio', $bio);
-        $sql->bindParam(':email', $email);
-        $sql->bindParam(':password', $password);
+// Update User
+// Updates user information in the database
+public function updateUser($userId, $naam, $achternaam, $geboorteDatum, $geslacht, $locatie, $sexualOri, $schoolBaan, $interesses, $fotos, $showMe, $leeftijd, $ageRange, $bio, $email, $password) {
+    require 'database/conn.php';
+    // Prepare the SQL statement
+    $sql = $conn->prepare('UPDATE users SET naam = :naam, achternaam = :achternaam, geboorteDatum = :geboorteDatum, geslacht = :geslacht, locatie = :locatie, sexualOri = :sexualOri, schoolBaan = :schoolBaan, interesses = :interesses, fotos = :fotos, showMe = :showMe, leeftijd = :leeftijd, ageRange = :ageRange, bio = :bio, email = :email, password = :password WHERE userId = :userId');
 
-        $sql->execute();
+    // Bind parameters with values
+    $sql->bindParam(':userId', $userId);
+    $sql->bindParam(':naam', $naam);
+    // ... bind other parameters ...
+    $sql->bindParam(':password', $password);
 
+    // Execute the SQL statement
+    $sql->execute();
 
+    // Set a success message and redirect to account page
+    $_SESSION['message'] = 'Users ' . $naam . ' is bijgewerkt <br>';
+    header("Location: account.php");
+}
 
-
-        $_SESSION['message'] = 'Users ' . $naam . ' is bijgewerkt <br>';
-        header("Location: account.php");
-    }
-
-    //user Delete
-    public function deleteUser($userId)
-{
+// User Delete
+// Deletes a user and associated records from the database
+public function deleteUser($userId) {
     require 'database/database.php';
     
-    // Prepare the SQL statements
+    // Prepare the SQL statements to delete records related to the user
     $sqlDeleteLikes = $conn->prepare('DELETE FROM likes WHERE liker_id = :userId OR liked_id = :userId');
     $sqlDeleteMatches = $conn->prepare('DELETE FROM matches WHERE user_id_1 = :userId OR user_id_2 = :userId');
     $sqlDeleteChats = $conn->prepare('DELETE FROM chats WHERE senderId = :userId OR receiverId = :userId');
@@ -348,7 +301,7 @@ public function getEmail() {
     $sqlDeleteChats->execute();
     $sqlDeleteUser->execute();
     
-    // Log out the user
+    // Log out the user by destroying the session
     session_start();
     session_unset();
     session_destroy();
@@ -358,38 +311,37 @@ public function getEmail() {
     exit();
 }
 
+// Find User
+// Fetches and returns user information based on userId
+public function findUser($userId) {
+    require 'database/database.php';
+    $sql = $conn->prepare('SELECT * FROM users WHERE userId = :userId');
+    $sql->bindParam(':userId', $userId);
+    $sql->execute();
+    $user = $sql->fetch();
+    return $user;
+}
 
-    public function findUser($userId) {
-        require 'database/database.php';
-        $sql = $conn->prepare('SELECT * FROM users WHERE userId = :userId');
-        $sql->bindParam(':userId', $userId);
-        $sql->execute();
-        $user = $sql->fetch();
-        return $user;
-    }
-
-    private $users = [];
-//fetch the userId of all users with the right gender for logged in user
-public function fetchusers($userId){
-
+// Fetch Users
+// Fetches the userId of all users with the right gender for the logged-in user
+public function fetchUsers($userId) {
     require_once 'database/database.php';
-        $sql = $conn->prepare('SELECT userId
+    $sql = $conn->prepare('SELECT userId
         FROM users
-        WHERE userId != :UserId
+        WHERE userId != :userId
             AND geslacht IN (
                 SELECT showMe
                 FROM users
-                WHERE userId = :UserId
+                WHERE userId = :userId
             )');
-        $sql->bindParam(':userId', $userId);
-        $sql->execute();
+    $sql->bindParam(':userId', $userId);
+    $sql->execute();
 
-        $this->users = $sql->fetchAll();
-
-
+    $this->users = $sql->fetchAll();
 }
 
-//randomize the userId's found for the potential matches for logged in user
+// Get Random User
+// Randomly selects and returns a userId from the list of potential matches
 public function getRandomUser() {
     if (empty($this->users)) {
         return null;
@@ -399,148 +351,147 @@ public function getRandomUser() {
     return $this->users[$randomIndex];
 }
 
+// User Like
+// Adds a like for the logged-in user and checks for a match
+public function userLike($userId) {
+    require_once 'database/conn.php';
+    $likedId = 9; // Temporary value, you can modify it to make it dynamic
 
-    // sent logged in users id and the liked id to the database so a match can be made
-    public function userLike($userId) {
-        require_once 'database/conn.php';
-        // $likedId = rand(1, 5);
-        $likedId = 9;
+    // Check if the like already exists
+    $checkSql = "SELECT * FROM likes WHERE liker_id = :userId AND liked_id = :likedId";
+    $checkStmt = $conn->prepare($checkSql);
+    $checkStmt->bindParam(':userId', $userId);
+    $checkStmt->bindParam(':likedId', $likedId);
+    $checkStmt->execute();
 
-        // Check if the like already exists
-        $checkSql = "SELECT * FROM likes WHERE liker_id = :userId AND liked_id = :likedId";
-        $checkStmt = $conn->prepare($checkSql);
-        $checkStmt->bindParam(':userId', $userId);
-        $checkStmt->bindParam(':likedId', $likedId);
-        $checkStmt->execute();
-    
-        // If the like doesn't exist, insert it
-        if ($checkStmt->rowCount() === 0) {
-            $insertSql = "INSERT INTO likes (liker_id, liked_id, like_status, timestamp)
-                        VALUES (:userId, :likedId, 'liked', NOW())";
-            $insertStmt = $conn->prepare($insertSql);
-            $insertStmt->bindParam(':userId', $userId);
-            $insertStmt->bindParam(':likedId', $likedId);
-    
-            // Execute the SQL statement
-            if ($insertStmt->execute()) {
-                // Check if the mutual like exists
-                $mutualSql = "SELECT * FROM likes WHERE liker_id = :likedId AND liked_id = :userId";
-                $mutualStmt = $conn->prepare($mutualSql);
-                $mutualStmt->bindParam(':userId', $userId);
-                $mutualStmt->bindParam(':likedId', $likedId);
-                $mutualStmt->execute();
-    
-                // If it's a mutual like, insert into matches table
-                if ($mutualStmt->rowCount() > 0) {
-                    $matchSql = "INSERT INTO matches (user_id_1, user_id_2, match_date)
-                                 VALUES (:userId, :likedId, NOW())";
-                    $matchStmt = $conn->prepare($matchSql);
-                    $matchStmt->bindParam(':userId', $userId);
-                    $matchStmt->bindParam(':likedId', $likedId);
-                    $matchStmt->execute();
+    // If the like doesn't exist, insert it
+    if ($checkStmt->rowCount() === 0) {
+        $insertSql = "INSERT INTO likes (liker_id, liked_id, like_status, timestamp)
+                    VALUES (:userId, :likedId, 'liked', NOW())";
+        $insertStmt = $conn->prepare($insertSql);
+        $insertStmt->bindParam(':userId', $userId);
+        $insertStmt->bindParam(':likedId', $likedId);
 
-                    if ($matchStmt->execute()) {
-                        header("location:swipe.php");
-                        $_SESSION['message'] = "It's a match! " . $likedId;
-                    } else {
-                        echo "Error: Failed to insert into matches table.";
-                    }
+        // Execute the SQL statement
+        if ($insertStmt->execute()) {
+            // Check if the mutual like exists
+            $mutualSql = "SELECT * FROM likes WHERE liker_id = :likedId AND liked_id = :userId";
+            $mutualStmt = $conn->prepare($mutualSql);
+            $mutualStmt->bindParam(':userId', $userId);
+            $mutualStmt->bindParam(':likedId', $likedId);
+            $mutualStmt->execute();
+
+            // If it's a mutual like, insert into matches table
+            if ($mutualStmt->rowCount() > 0) {
+                $matchSql = "INSERT INTO matches (user_id_1, user_id_2, match_date)
+                             VALUES (:userId, :likedId, NOW())";
+                $matchStmt = $conn->prepare($matchSql);
+                $matchStmt->bindParam(':userId', $userId);
+                $matchStmt->bindParam(':likedId', $likedId);
+                $matchStmt->execute();
+
+                if ($matchStmt->execute()) {
+                    header("location:swipe.php");
+                    $_SESSION['message'] = "It's a match! " . $likedId;
+                } else {
+                    echo "Error: Failed to insert into matches table.";
                 }
-    
-                header("location:swipe.php");
-                $_SESSION['message'] = "Liked " . $likedId;
-            } else {
-                echo "Error: " . $insertStmt->errorInfo()[2];
             }
-        } else {
+
             header("location:swipe.php");
-            $_SESSION['message'] = "User already liked this person";
-       
+            $_SESSION['message'] = "Liked " . $likedId;
+        } else {
+            echo "Error: " . $insertStmt->errorInfo()[2];
         }
+    } else {
+        header("location:swipe.php");
+        $_SESSION['message'] = "User already liked this person";
+    }
+}
+
+// Get User ID Session
+// Retrieves the userId from the database based on the provided email and stores it in a session variable
+public function getUserIdSession($email) {
+    require_once 'database/database.php';
+    $sql = $conn->prepare('SELECT userId FROM users WHERE email = :email');
+    $sql->bindParam(':email', $email);
+    $sql->execute();
+    // Fetch the result of the query
+    $result = $sql->fetch(PDO::FETCH_ASSOC);
+
+    // Access the userId from the result
+    $userId = $result['userId'];
+
+    // Store the userId in a session variable
+    $_SESSION['userId'] = $userId;
+    // Return the userId
+    return $userId;
+}
+
+// Get Matches
+// Retrieves the user IDs of matches for a given user
+public function getMatches($userId) {
+    require 'database/database.php';
+    $sql = $conn->prepare("SELECT * FROM matches WHERE user_id_1 = :userId OR user_id_2 = :userId");
+    $sql->bindParam(':userId', $userId);
+    $sql->execute();
+
+    $matches = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $matchedUserIds = array();
+
+    foreach ($matches as $match) {
+        $matchedUserId = ($match['user_id_1'] == $userId) ? $match['user_id_2'] : $match['user_id_1'];
+        $matchedUserIds[] = $matchedUserId;
     }
 
+    return $matchedUserIds;
+}
 
+// Matched User
+// Retrieves information about other users using their ID
+public function matchedUser($matchedUserId) {
+    require 'database/database.php';
+    $sql = $conn->prepare('SELECT * FROM users WHERE userId = :userId');
+    $sql->bindParam(':userId', $matchedUserId);
+    $sql->execute();
 
+    $users = [];
+    foreach ($sql as $user) {
+        $userData = [];
+        $userData['userId'] = $user['userId'];
+        $userData['email'] = $user['email'];
+        $userData['name'] = $user['naam'];
+        $userData['surname'] = $user['achternaam'];
+        $userData['dateOfBirth'] = $user['geboorteDatum'];
+        $userData['gender'] = $user['geslacht'];
+        $userData['location'] = $user['locatie'];
+        $userData['sexualOrientation'] = $user['sexualOri'];
+        $userData['schoolJob'] = $user['schoolBaan'];
+        $userData['hobbies'] = $user['interesses'];
+        $userData['photos'] = $user['fotos'];
+        $userData['preference'] = $user['showMe'];
+        $userData['age'] = $user['leeftijd'];
+        $userData['ageRange'] = $user['ageRange'];
+        $userData['bio'] = $user['bio'];
 
-    // get userId and put it in a session
-    public function getUserIdSession($email) {
-        require_once 'database/database.php';
-        $sql = $conn->prepare('SELECT userId FROM users WHERE email = :email');
-        $sql->bindParam(':email', $email);
-        $sql->execute();
-        // Fetch the result of the query
-        $result = $sql->fetch(PDO::FETCH_ASSOC);
-
-        // Access the userId from the result
-        $userId = $result['userId'];
-        
-        // Store the userId in a session variable
-        $_SESSION['userId'] = $userId;        
-        // Return the userId
-        return $userId;
+        $users[] = $userData;
     }
 
-    public function getMatches($userId) {
-        require 'database/database.php';
-        $sql = $conn->prepare("SELECT * FROM matches WHERE user_id_1 = :userId OR user_id_2 = :userId");
-        $sql->bindParam(':userId', $userId);
-        $sql->execute();
-    
-        $matches = $sql->fetchAll(PDO::FETCH_ASSOC);
-        $matchedUserIds = array();
-    
-        foreach ($matches as $match) {
-            $matchedUserId = ($match['user_id_1'] == $userId) ? $match['user_id_2'] : $match['user_id_1'];
-            $matchedUserIds[] = $matchedUserId;
-        }
-    
-        return $matchedUserIds;
-    }
+    return $users;
+}
 
+// Search Match ID
+// Searches for the match ID between two users
+public function searchMatchId($userId, $matchedUserId) {
+    require 'database/database.php';
+    $sql = $conn->prepare("SELECT matchId FROM matches WHERE (user_id_1 = :userId AND user_id_2 = :matchedUserId) OR (user_id_1 = :matchedUserId AND user_id_2 = :userId)");
+    $sql->bindParam(':userId', $userId);
+    $sql->bindParam(':matchedUserId', $matchedUserId);
+    $sql->execute();
+    $matchId = $sql->fetchAll(PDO::FETCH_COLUMN);
+    return $matchId;
+}
 
-    // retrieve information about other users using their ID
-    public function matchedUser($matchedUserId) {
-        require 'database/database.php';
-        $sql = $conn->prepare('SELECT * FROM users WHERE userId = :userId');
-        $sql->bindParam(':userId', $matchedUserId);
-        $sql->execute();
-    
-        $users = [];
-        foreach ($sql as $user) {
-            $userData = [];
-            $userData['userId'] = $user['userId'];
-            $userData['email'] = $user['email'];
-            $userData['name'] = $user['naam'];
-            $userData['surname'] = $user['achternaam'];
-            $userData['dateOfBirth'] = $user['geboorteDatum'];
-            $userData['gender'] = $user['geslacht'];
-            $userData['location'] = $user['locatie'];
-            $userData['sexualOrientation'] = $user['sexualOri'];
-            $userData['schoolJob'] = $user['schoolBaan'];
-            $userData['hobbies'] = $user['interesses'];
-            $userData['photos'] = $user['fotos'];
-            $userData['preference'] = $user['showMe'];
-            $userData['age'] = $user['leeftijd'];
-            $userData['ageRange'] = $user['ageRange'];
-            $userData['bio'] = $user['bio'];
-    
-            $users[] = $userData;
-        }
-    
-        return $users;
-    }
-
-    public function searchMatchId($userId, $matchedUserId) {
-        require 'database/database.php';
-        $sql = $conn->prepare("SELECT matchId FROM matches WHERE (user_id_1 = :userId AND user_id_2 = :matchedUserId) OR (user_id_1 = :matchedUserId AND user_id_2 = :userId)");
-        $sql->bindParam(':userId', $userId);
-        $sql->bindParam(':matchedUserId', $matchedUserId);
-        $sql->execute();
-        $matchId = $sql->fetchAll(PDO::FETCH_COLUMN);
-        return $matchId;
-    }
-    
-    
     
 
 }

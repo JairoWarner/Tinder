@@ -5,12 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="includes/main.css">
- 
     <title>Login</title>
 </head>
 <body>
 <?php 
-require 'includes/header.php';
+require 'includes/header.php'; // Include the header.php file
 ?>
 
     <div class="content">
@@ -29,8 +28,8 @@ require 'includes/header.php';
                             <div id="messagePHP"><?php
 
                                 if (isset($_SESSION['message'])) {
-                                    echo $_SESSION['message'];
-                                    unset($_SESSION['message']);
+                                    echo $_SESSION['message']; // Output the stored message from the session
+                                    unset($_SESSION['message']); // Remove the message from the session
                                 }
                                 ?>
                             </div>
@@ -43,13 +42,13 @@ require 'includes/header.php';
             </div>
         </div>
     </div>
+
 <style>
     .messagePHP {
         color: black;
     }
 </style>
 
-
-    <?php require 'includes/footer.php'?>
+    <?php require 'includes/footer.php'?> <!-- Include the footer.php file -->
 </body>
 </html>
