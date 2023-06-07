@@ -60,6 +60,7 @@ class Chat {
 
             // Format the DateTime object to display only the time
             $time = $date->format('H:i'); // 'H' represents 24-hour format, 'i' represents minutes, 's' represents seconds
+            echo "<div class='messageContent'>";
                // Echo the date header if the current date is different from the previous date
         if ($currentDate !== $previousDate) {
             echo '<div class="date-header">' . $currentDate . '</div>';
@@ -87,9 +88,11 @@ class Chat {
                 echo "<i id='dots' class='bx bx-dots-vertical-rounded'><button><p id='delete'></p><p id='update'></p></button></i>";
                 // echo '<div id="delete">';
                 echo '<span class="timestamp">' . $time . '</span>';
-                echo '</div>';
+            echo '</div>';
+
                 echo '</div>';
             }
+            echo '</div>';
             echo '</div>';
         }
     }

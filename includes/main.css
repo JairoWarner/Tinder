@@ -1,28 +1,11 @@
 body {
     margin: 0;
     background-color: white;
-
 }
-
-
-
-
-
-
-
 .left{
     font-size: 1.3em;
     cursor: pointer;
-
 }
-
-li{
-    text-decoration: none;
-}
-
-
-
-
 .logUit  {
     font-size: 1.3em;
     margin-left: auto;
@@ -34,9 +17,6 @@ nav {
     padding: 14px 14px;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
-
-
-
 nav a {
     float: left;
     font-size: 1.0em;
@@ -45,8 +25,6 @@ nav a {
     padding: 16px 18px;
     text-decoration: none;
 }
-
-
 .text_logo {
     float: left;
     margin: 0 auto;
@@ -55,20 +33,14 @@ nav a {
     color: black;
     font-size: 1.0em;
 }
-
-
 nav a:hover, nav .dropdown:hover, nav .dropbtn {
-
     background: grey;
-
     border-radius: 5px;
 }
-
 nav .dropdown {
     overflow: hidden;
     font-size: 1.3em;
 }
-
 nav .dropdown .dropbtn {
     font-size: 1.0em;
     display: flex;
@@ -78,10 +50,8 @@ nav .dropdown .dropbtn {
     padding: 16px 19px;
     background-color: inmherit;
     font-weight: bolder;
-
     margin: 0;
 }
-
 nav .dropdown-content {
     display: none;
     position: absolute;
@@ -92,7 +62,6 @@ nav .dropdown-content {
     margin-top: 50px;
     font-size: 1.0em;
 }
-
 nav .dropdown-content a {
     float: none;
     color: black;
@@ -102,12 +71,9 @@ nav .dropdown-content a {
     text-align: left;
     font-size: 1.0em;
 }
-
-
 nav .dropdown:hover .dropdown-content {
     display: block;
 }
-
 /* content card */
 .content {
     padding: 10px;
@@ -116,7 +82,6 @@ nav .dropdown:hover .dropdown-content {
     margin-top: 100px;
     /* background-color: grey; */
 }
-
 .accountPage {
     display: flex;
     justify-content: center;
@@ -125,7 +90,6 @@ nav .dropdown:hover .dropdown-content {
     width: 100%;
     /* background-color: black; */
 }
-
 .accountCard {
     color: white;
     display: flex;
@@ -140,9 +104,7 @@ nav .dropdown:hover .dropdown-content {
     border-radius: 10px;
     /* background: linear-gradient(to top right, #FF519C, #FF9068, #FD746C); */
     box-shadow: 10px 10px 50px rgb(0, 0, 0);
-
 }
-
 .tinderCard {
     color: white;
     display: flex;
@@ -167,7 +129,6 @@ nav .dropdown:hover .dropdown-content {
     flex-direction: column;
     justify-content: space-around;
 }
-
 .accountForm {
     display: flex;
     flex-direction: column;
@@ -176,7 +137,6 @@ nav .dropdown:hover .dropdown-content {
     padding: 10px;
     width: 100%;
 }
-
 #ageSlider {
     width: 300px;
     position: relative;
@@ -207,7 +167,6 @@ nav .dropdown:hover .dropdown-content {
     display: flex;
     flex-direction: column;
     text-align: center;
-
 }
 .title_text{
     /* margin-top: 220px; */
@@ -234,7 +193,6 @@ nav .dropdown:hover .dropdown-content {
     transform: scale(1.1);
     animation: none;
 }
-
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -246,3 +204,170 @@ nav .dropdown:hover .dropdown-content {
         transform: scale(1);
     }
 }
+/* Chat */
+.headerName {
+    font-size: large;
+    font-weight: bolder;
+}
+.chatContainer{
+    margin: 10px;
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    
+}
+.chatForm {
+    margin: 10px;
+    padding: 10px;
+    width: 400px;
+    height: 500px;
+    min-height: 100px;
+    max-height: 500px;
+    /* display: grid;
+    place-content: center; */
+    box-shadow: 10px 10px 50px rgb(0, 0, 0);
+    overflow-y: scroll;
+    border-radius: 14px;
+}
+.messageContent {
+    min-height: 50px;
+    display: grid;
+    grid-template-areas: "message";
+    /* box-shadow: 10px 10px 50px rgb(0, 0, 0); */
+    border-radius: 10px;
+}
+.message {
+    margin: 10px;
+    padding: 10px;
+}
+.text {
+    padding: 2px;
+    margin: 2px;
+}
+.sender {
+    color: #000000;
+    font-weight: bolder;
+}
+.your-message,
+.other-message {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  min-width: 20px;
+  max-width: 200px;
+
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  color: rgb(222, 217, 217);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+
+}
+.messageText, .infoDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.infoDiv {
+    height: 20px;
+    width: 20px;
+
+}
+.bx-dots-vertical-rounded{
+    margin: 2px;
+  padding: 2px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.other-message {
+  background-color: grey;
+  margin-right: 100px;
+  margin-right: 120px;
+  grid-area: message;
+  justify-self: start;
+}
+
+.your-message {
+  background-color: green;
+  margin-left: 100px;
+  margin-left: 120px;
+  grid-area: message;
+  justify-self: end;
+}
+.timestamp {
+  margin: 2px;
+  padding: 2px;
+  color: rgb(165, 161, 161);
+  font-size: 12px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+/* .your-message,
+.other-message {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  min-width: 20px;
+  max-width: 200px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.other-message {
+  background-color: grey;
+  margin-right: 100px;
+}
+.your-message {
+  background-color: green;
+  margin-left: 100px;
+}
+.timestamp {
+  margin: 2px;
+  padding: 2px;
+  color: rgb(165, 161, 161);
+  font-size: 12px;
+  align-self: flex-end;
+  flex-basis: 100%;
+}
+ */
+ .sendMessage{
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    /* background-color: grey; */
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+
+ }
+
+ .sendMessage textarea {
+    /* padding: 10px; */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-height: 40px;
+    resize: vertical;
+    resize: none;
+  }
+  
+  .sendMessage button {
+    /* padding: 10px 20px; */
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .date-header {
+    padding: 4px;
+    width: min-content;
+    margin-left: 42%;
+    color: rgb(111, 110, 110);
+    font-size: 14px;
+    background-color: #aeaaaa;
+    border-radius: 10px;
+    /* min-width: 10px; */
+  }

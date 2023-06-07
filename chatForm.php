@@ -13,55 +13,54 @@
 <?php require 'includes/header.php'?>
 <div class="chatContainer">
 
-        <?php 
-            require 'Classes/User.php';
-            require 'Classes/Chat.php';
-            $email = $_SESSION['email']; // Retrieve the email from the session
-            $userId = $_SESSION['userId'];
-            $user1 = new User();
-            $matchedUserId = $_GET['matchedUserId'];
+    <?php 
+        require 'Classes/User.php';
+        require 'Classes/Chat.php';
+        $email = $_SESSION['email']; // Retrieve the email from the session
+        $userId = $_SESSION['userId'];
+        $user1 = new User();
+        $matchedUserId = $_GET['matchedUserId'];
 
-            $matchedUser = $user1->matchedUser($matchedUserId);
-            if ($matchedUser !== null) {
-                $matchedUserName = $matchedUser[0]['name'];
-                echo '<div class="headerName"><a href="UserInfo.php?action=chat&matchedUserId=' . $matchedUserId . '">' . $matchedUserName . '</a></div>';
-            }
-            ?>
-    <div class="chatForm">
-<div class="messageContent">
-            <?php
-            
-
-            $searchMatchId = $user1->searchMatchId($userId, $matchedUserId);
-            $matchId = $searchMatchId[0];
-
-            $chat1 = new Chat($matchId, $userId, $matchedUserId, $matchedUserName);
-            $chat1->readMessage($matchId, $userId, $matchedUserId, $matchedUserName);
-
-        ?>
-        
-        <div class="sendMessage">
-            <form action="send_message.php" method="post" id="messageForm">
-            <input type="hidden" name="matchId" value="<?php echo $matchId; ?>">
-                <input type="hidden" name="senderId" value="<?php echo $userId; ?>">
-                <input type="hidden" name="receiverId" value="<?php echo $matchedUserId; ?>">
-                <textarea id="message" name="message" placeholder="Enter your message" required></textarea>
-                <span id="charCount"></span>
-                <button type="submit">Send</button>
-            </form>
-            
-        </div>
-        </div>
-
-
-    </div>
-        </div>
-    <div id="messagePHP"><?php
-        if (isset($_SESSION['message'])) {
-            echo $_SESSION['message'];
-            unset($_SESSION['message']);
+        $matchedUser = $user1->matchedUser($matchedUserId);
+        if ($matchedUser !== null) {
+            $matchedUserName = $matchedUser[0]['name'];
+            echo '<div class="headerName"><a href="UserInfo.php?action=chat&matchedUserId=' . $matchedUserId . '">' . $matchedUserName . '</a></div>';
         }
-    ?>
+        ?>
+        <div class="chatForm">
+            <div class="messageContent">
+                <?php
+                
+
+                $searchMatchId = $user1->searchMatchId($userId, $matchedUserId);
+                $matchId = $searchMatchId[0];
+
+                $chat1 = new Chat($matchId, $userId, $matchedUserId, $matchedUserName);
+                $chat1->readMessage($matchId, $userId, $matchedUserId, $matchedUserName);
+
+                ?>
+            
+                <div class="sendMessage">
+                    <form action="send_message.php" method="post" id="messageForm">
+                    <input type="hidden" name="matchId" value="<?php echo $matchId; ?>">
+                        <input type="hidden" name="senderId" value="<?php echo $userId; ?>">
+                        <input type="hidden" name="receiverId" value="<?php echo $matchedUserId; ?>">
+                        <textarea id="message" name="message" placeholder="Enter your message" required></textarea>
+                        <span id="charCount"></span>
+                        <button type="submit">Send</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="messagePHP"><?php
+    if (isset($_SESSION['message'])) {
+        echo $_SESSION['message'];
+        unset($_SESSION['message']);
+    }
+?>
     <script>
     const messageInput = document.getElementById('message');
     const charCount = document.getElementById('charCount');
@@ -86,7 +85,7 @@
         const dots = document.getElementById('dots');
         const deleteElement = document.querySelector('delete');
         const update = document.querySelector('update');
-        // const windowElement = document.getElementById('window');
+        let isClicked = false;
 
         dots.addEventListener('click', () => {
         if(isClicked) {

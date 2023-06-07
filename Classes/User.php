@@ -373,12 +373,8 @@ public function getEmail() {
     public function userLike($userId) {
         require_once 'database/conn.php';
         // $likedId = rand(1, 5);
-<<<<<<< HEAD
         $likedId = 9;
-    
-=======
 
->>>>>>> be5292f896497eb99fe57ce7cb95cd6de7052392
         // Check if the like already exists
         $checkSql = "SELECT * FROM likes WHERE liker_id = :userId AND liked_id = :likedId";
         $checkStmt = $conn->prepare($checkSql);

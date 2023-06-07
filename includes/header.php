@@ -1,5 +1,6 @@
 <header>
 <?php require 'database/conn.php'; ?>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <nav>
         <div class="left">
