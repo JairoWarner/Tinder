@@ -15,7 +15,11 @@
         <?php 
             require 'Classes/User.php';
             $email = $_SESSION['email']; // Retrieve the email from the session
-
+            if (!isset($_SESSION['email'])) {
+                $_SESSION['message'] = "Please log in first.";
+                header("Location: loginForm.php");
+                exit;
+            }
             $user1 = new User();
             $user1->getUserIdSession($email);
         ?>
