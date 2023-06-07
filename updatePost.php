@@ -19,8 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $leeftijd = $_POST['leeftijd'];
     $ageRange = $_POST['ageRange'];
     $bio = $_POST['bio'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
 
     // Create a new instance of the User class
     $user = new User();
@@ -41,7 +39,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $leeftijd,
         $ageRange,
         $bio,
-        $email,
-        $password
     );
 }

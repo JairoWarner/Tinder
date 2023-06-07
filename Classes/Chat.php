@@ -70,11 +70,13 @@ class Chat {
                 echo '<div class="your-message">'; 
                 echo '<div class="messageText">';
                 echo '<span class="sender">You:</span><br>';
-                echo '<div class="text">' . $messageText . '</div>';
+                echo '<div class="text" id="message-text-' . $chatId . '">' . $messageText . '</div>';
                 echo '</div>';
                 echo '<div class="infoDiv">';
                 echo "<a href='chatDelete.php?action=delete&chatId=" . $chatId . "&matchedUserId=" . $matchedUserId . "' class='deleteButton' onclick=\"return confirm('Are you sure you want to delete this artikel?')\"><i class='bx bxs-trash'></i></a>";
-                echo "<a href='chatUpdate.php?action=update&chatId=" . $chatId . "&matchedUserId=" . $matchedUserId . "' class='deleteButton' onclick=\"return confirm('Are you sure you want to delete this artikel?')\"><i class='bx bxs-edit-alt'></i></a>";
+                // echo onclick="editMessage()""<a href='chatUpdate.php?action=update&chatId=" . $chatId . "&matchedUserId=" . $matchedUserId . "' class='deleteButton' onclick=\"return confirm('Are you sure you want to delete this artikel?')\"><i class='bx bxs-edit-alt'></i></a>";
+                echo '<button class="noStyle" onclick="editMessage(' . $chatId . ')"><i class="bx bxs-edit-alt"></i></button>';
+
                 echo '<span class="timestamp">' . $time . '</span>';
                 echo '</div>';
                 echo '</div>';
@@ -93,6 +95,32 @@ class Chat {
             echo '</div>';
         }
     }
+    //Update Chat
+    public function updateChat($chatId, $editedMessage, $matchedUserId) {
+        // Include the necessary files
+        require 'database/database.php';
+        
+        // Prepare the SQL statement
+        $sql = $conn->prepare('UPDATE chats SET message = :editedMessage WHERE chatId = :chatId');
+        
+        // Bind parameters with values
+        $sql->bindParam(':editedMessage', $editedMessage);
+        $sql->bindParam(':chatId', $chatId);
+        
+        // Execute the SQL statement
+        if ($sql->execute()) {
+          // Update successful
+          $_SESSION['message'] = 'Chat message updated successfully';
+          header("Location: chatForm.php?action=chat&matchedUserId=" . $matchedUserId);
+
+        } else {
+          // Update failed
+          $_SESSION['message'] = 'Failed to update chat message';
+          header("Location: chatForm.php?action=chat&matchedUserId=" . $matchedUserId);
+
+        }
+      }
+      
 
     // Delete a chat message using chat ID
     public function deleteChat($chatId, $matchedUserId) {

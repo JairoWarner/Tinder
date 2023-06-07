@@ -259,24 +259,36 @@ public function getEmail() {
 
 // Update User
 // Updates user information in the database
-public function updateUser($userId, $naam, $achternaam, $geboorteDatum, $geslacht, $locatie, $sexualOri, $schoolBaan, $interesses, $fotos, $showMe, $leeftijd, $ageRange, $bio, $email, $password) {
+public function updateUser($userId, $naam, $achternaam, $geboorteDatum, $geslacht, $locatie, $sexualOri, $schoolBaan, $interesses, $fotos, $showMe, $leeftijd, $ageRange, $bio, $email) {
     require 'database/conn.php';
     // Prepare the SQL statement
-    $sql = $conn->prepare('UPDATE users SET naam = :naam, achternaam = :achternaam, geboorteDatum = :geboorteDatum, geslacht = :geslacht, locatie = :locatie, sexualOri = :sexualOri, schoolBaan = :schoolBaan, interesses = :interesses, fotos = :fotos, showMe = :showMe, leeftijd = :leeftijd, ageRange = :ageRange, bio = :bio, email = :email, password = :password WHERE userId = :userId');
+    $sql = $conn->prepare('UPDATE users SET naam = :naam, achternaam = :achternaam, geboorteDatum = :geboorteDatum, geslacht = :geslacht, locatie = :locatie, sexualOri = :sexualOri, schoolBaan = :schoolBaan, interesses = :interesses, fotos = :fotos, showMe = :showMe, leeftijd = :leeftijd, ageRange = :ageRange, bio = :bio, email = :email WHERE userId = :userId');
 
     // Bind parameters with values
     $sql->bindParam(':userId', $userId);
     $sql->bindParam(':naam', $naam);
-    // ... bind other parameters ...
-    $sql->bindParam(':password', $password);
+    $sql->bindParam(':achternaam', $achternaam);
+    $sql->bindParam(':geboorteDatum', $geboorteDatum);
+    $sql->bindParam(':geslacht', $geslacht);
+    $sql->bindParam(':locatie', $locatie);
+    $sql->bindParam(':sexualOri', $sexualOri);
+    $sql->bindParam(':schoolBaan', $schoolBaan);
+    $sql->bindParam(':interesses', $interesses);
+    $sql->bindParam(':fotos', $fotos);
+    $sql->bindParam(':showMe', $showMe);
+    $sql->bindParam(':leeftijd', $leeftijd);
+    $sql->bindParam(':ageRange', $ageRange);
+    $sql->bindParam(':bio', $bio);
+    $sql->bindParam(':email', $email);
 
     // Execute the SQL statement
     $sql->execute();
 
     // Set a success message and redirect to account page
-    $_SESSION['message'] = 'Users ' . $naam . ' is bijgewerkt <br>';
+    $_SESSION['message'] = 'User ' . $naam . ' is bijgewerkt <br>';
     header("Location: account.php");
 }
+
 
 // User Delete
 // Deletes a user and associated records from the database

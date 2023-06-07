@@ -269,11 +269,26 @@ nav .dropdown:hover .dropdown-content {
 .messageText, .infoDiv {
     display: flex;
     flex-direction: column;
+    
+}
+.bxs-trash, .bxs-edit-alt {
+    color: rgb(222, 217, 217);
+}
+
+.bx:hover, .bx-trash:hover {
+    color: red;
+    font-size: x-large;
+}
+.bxs-edit-alt:hover {
+    color: blue;
+    font-size: large;
+
 }
 
 .infoDiv {
     height: 20px;
     width: 20px;
+    margin-left: auto; /* Align .infoDiv to the right */
 
 }
 .bx-dots-vertical-rounded{
@@ -373,4 +388,16 @@ nav .dropdown:hover .dropdown-content {
     background-color: #aeaaaa;
     border-radius: 10px;
     /* min-width: 10px; */
+  }
+
+  .noStyle {
+      /* Reset all default styles */
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
   }

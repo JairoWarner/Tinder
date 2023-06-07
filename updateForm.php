@@ -40,6 +40,8 @@ $user = $userObj->findUser($userId);
                         <input type="hidden" name="userId" value="<?php echo $user['userId']; ?>">
 
                         <!-- Input fields for various user details -->
+                        <label>Email: <?php echo $user['email']; ?></label><br>
+
                         <label>Naam:</label>
                         <input type="text" name="naam" value="<?php echo $user['naam']; ?>"><br>
 
@@ -78,12 +80,6 @@ $user = $userObj->findUser($userId);
 
                         <label>Bio:</label>
                         <input type="text" name="bio" value="<?php echo $user['bio']; ?>"><br>
-
-                        <label>Email:</label>
-                        <input type="text" name="email" value="<?php echo $user['email']; ?>"><br>
-
-                        <label>Wachtwoord:</label>
-                        <input type="password" name="password" value="<?php echo $user['password']; ?>"><br>
 
                         <div class="formEnd">
                             <input type="submit" value="Submit">

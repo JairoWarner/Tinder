@@ -31,6 +31,10 @@
 
         $matchedUserId = $_GET['matchedUserId']; // Retrieve the matchedUserId from the URL
 
+        //add the matchedUserId to javascript for the update function
+        echo '<script>';
+        echo 'var matchedUserId = ' . json_encode($matchedUserId) . ';';
+        echo '</script>';
         $matchedUser = $user1->matchedUser($matchedUserId); // Get the matched user's information
         
         if ($matchedUser !== null) { // Check if the matched user exists
@@ -74,25 +78,54 @@
 </div>
 
 <script>
-    const messageInput = document.getElementById('message');
-    const charCount = document.getElementById('charCount');
-    const messageForm = document.getElementById('messageForm');
+    function editMessage(chatId) {
+        var messageText = document.getElementById('message-text-' + chatId);
+        var currentText = messageText.innerHTML.trim();
+        
+        var inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.value = currentText;
+        inputField.id = 'edit-input-' + chatId;
+        
+        var submitButton = document.createElement('button');
+        submitButton.type = 'button';
+        submitButton.onclick = function() { submitMessage(chatId, matchedUserId); };
+        submitButton.innerHTML = 'edit message';
+        
+        messageText.innerHTML = '';
+        messageText.appendChild(inputField);
+        messageText.appendChild(submitButton);
+    }
+    function submitMessage(chatId, matchedUserId) {
 
-    messageInput.addEventListener('input', function () {
-        const messageLength = messageInput.value.length;
-        charCount.innerText = `${messageLength}/2000`;
-
-        if (messageLength > 2000) {
-            charCount.style.color = 'red';
-            messageForm.onsubmit = function(event) {
-                event.preventDefault();
-            };
-        } else {
-            charCount.style.color = 'black';
-            messageForm.onsubmit = null;
-        }
-    });
-
+        var editedText = document.getElementById('edit-input-' + chatId).value.trim();
+        
+        // Create a hidden form dynamically
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'updateChat.php?matchedUserId=' + encodeURIComponent(matchedUserId);
+        
+        // Create hidden input fields for chatId and editedMessage
+        var chatIdInput = document.createElement('input');
+        chatIdInput.type = 'hidden';
+        chatIdInput.name = 'chatId';
+        chatIdInput.value = chatId;
+        
+        var editedMessageInput = document.createElement('input');
+        editedMessageInput.type = 'hidden';
+        editedMessageInput.name = 'editedMessage';
+        editedMessageInput.value = editedText;
+        
+        // Append the input fields to the form
+        form.appendChild(chatIdInput);
+        form.appendChild(editedMessageInput);
+        
+        // Append the form to the document body and submit it
+        document.body.appendChild(form);
+        
+        // Submit the form
+        form.submit();
+    }
     var chatForm = document.querySelector('.chatForm');
     chatForm.scrollTop = chatForm.scrollHeight;
 </script>
