@@ -368,6 +368,37 @@ public function getEmail() {
         return $user;
     }
 
+    private $users = [];
+//fetch the userId of all users with the right gender for logged in user
+public function fetchusers($userId){
+
+    require_once 'database/database.php';
+        $sql = $conn->prepare('SELECT userId
+        FROM users
+        WHERE userId != :UserId
+            AND geslacht IN (
+                SELECT showMe
+                FROM users
+                WHERE userId = :UserId
+            )');
+        $sql->bindParam(':userId', $userId);
+        $sql->execute();
+
+        $this->users = $sql->fetchAll();
+
+
+}
+
+//randomize the userId's found for the potential matches for logged in user
+public function getRandomUser() {
+    if (empty($this->users)) {
+        return null;
+    }
+
+    $randomIndex = array_rand($this->users);
+    return $this->users[$randomIndex];
+}
+
 
     // sent logged in users id and the liked id to the database so a match can be made
     public function userLike($userId) {
