@@ -43,12 +43,13 @@
 
                 if ($matchedUser !== null) { // Check if the matched user exists
                     $matchedUserName = $matchedUser[0]['name']; // Retrieve the matched user's name
-                    
+                    $matchedUserSurName = $matchedUser[0]['surname']; // Retrieve the matched user's surname
+
                     // Construct the URL with matchedUserId as a query parameter
                     $url = "chatForm.php?action=chat&matchedUserId=" . urlencode($matchedUserId);
         
                     // Output the link and additional user information
-                    echo '<li><a href="' . $url . '">Name: ' . $matchedUserName . '</a></li>';
+                    echo '<li class="matchedUserList" ><a href="' . $url . '">' . $matchedUserName . ' ' . $matchedUserSurName . '</a></li>';
                 }
             }
         } else {

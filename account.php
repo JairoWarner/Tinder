@@ -11,43 +11,45 @@
 <?php require 'includes/header.php'?>
 
 <!-- The main content section -->
-<div class="divRead">
-    <p>Dit zijn alle klant gegevens uit de database:</p>
-    
-    <!-- Display the user information -->
-    <div class="read">
-        <?php 
-            // Require the User class file
-            require 'Classes/User.php';
-            
-            // Retrieve the email from the session
-            $email = $_SESSION['email'];
-
-            // Create a new User object
-            $user1 = new User();
-
-            // Retrieve and display the user information based on the email
-            $user1->readUser($email);
-        ?>
+<div class="content">
+    <div class="divRead">
+        <p>Dit zijn alle klant gegevens uit de database:</p>
         
-        <!-- Redirect links -->
-        <div class="redirect">
-            <a href="swipe.php">Swipe here!</a>
+        <!-- Display the user information -->
+        <div class="read">
+            <?php 
+                // Require the User class file
+                require 'Classes/User.php';
+                
+                // Retrieve the email from the session
+                $email = $_SESSION['email'];
+
+                // Create a new User object
+                $user1 = new User();
+
+                // Retrieve and display the user information based on the email
+                $user1->readUser($email);
+            ?>
+            
+            <!-- Redirect links -->
+            <div class="redirect">
+                <a href="swipe.php"><i class='bx bxs-hot'>Swipe here!</i></a>
+            </div>
+            <div class="redirect">
+                <a href="matches.php"><i class='bx bx-chat'>Matches</i></a>
+            </div>
         </div>
-        <div class="redirect">
-            <a href="matches.php">Chat here!</a>
-        </div>
+        
+        <!-- Display a message stored in the session -->
+        <div id="messagePHP"><?php
+            if (isset($_SESSION['message'])) {
+                // Output the message
+                echo $_SESSION['message'];
+                // Remove the message from the session
+                unset($_SESSION['message']);
+            }
+        ?></div>
     </div>
-    
-    <!-- Display a message stored in the session -->
-    <div id="messagePHP"><?php
-        if (isset($_SESSION['message'])) {
-            // Output the message
-            echo $_SESSION['message'];
-            // Remove the message from the session
-            unset($_SESSION['message']);
-        }
-    ?></div>
 
 <?php require 'includes/footer.php'?>
 </body>

@@ -225,8 +225,8 @@ public function getEmail() {
         foreach ($sql as $user) { // Iterate through the result set
             echo '<div class="readList">'; // Output a div element with the class "readList"
             echo '<div class="buttons">'; // Output a div element with the class "buttons"
-            echo '<a href="UpdateForm.php?action=update&userId=' . $user['userId'] . '" class="updateButton">Update</a>'; // Output an anchor element for updating the user with a specific user ID
-            echo '<a href="userDelete.php?action=delete&userId=' . $user['userId'] . '" class="deleteButton" onclick="return confirm(\'Are you sure you want to delete your account?\')">Delete</a>'; // Output an anchor element for deleting the user with a specific user ID, with a confirmation dialog
+            echo '<a href="UpdateForm.php?action=update&userId=' . $user['userId'] . '" class="updateButton"><i class="bx bxs-edit-alt">Update</i></a>'; // Output an anchor element for updating the user with a specific user ID
+            echo '<a href="userDelete.php?action=delete&userId=' . $user['userId'] . '" class="deleteButton" onclick="return confirm(\'Are you sure you want to delete your account?\')"><i class= "bx bxs-trash">Delete</i></a>'; // Output an anchor element for deleting the user with a specific user ID, with a confirmation dialog
 
             echo '</div>'; // Close the "buttons" div element
             echo '<ul>'; // Output an unordered list element
@@ -333,38 +333,34 @@ public function findUser($userId) {
 
 // Fetch Users
 // Fetches the userId of all users with the right gender for the logged-in user
-public function fetchUsers($userId) {
-    require_once 'database/database.php';
-    $sql = $conn->prepare('SELECT userId
+public function fetchRandomUser($userId) {
+    require 'database/database.php';
+
+    $sql = $conn->prepare('SELECT userId, naam, bio
         FROM users
         WHERE userId != :userId
-            AND geslacht IN (
-                SELECT showMe
-                FROM users
-                WHERE userId = :userId
+            AND (
+                showMe = "both" OR
+                (showMe = "male" AND geslacht = "male") OR
+                (showMe = "female" AND geslacht = "female")
             )');
     $sql->bindParam(':userId', $userId);
     $sql->execute();
 
-    $this->users = $sql->fetchAll();
-}
+    $users = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-// Get Random User
-// Randomly selects and returns a userId from the list of potential matches
-public function getRandomUser() {
-    if (empty($this->users)) {
+    if (empty($users)) {
         return null;
     }
 
-    $randomIndex = array_rand($this->users);
-    return $this->users[$randomIndex];
+    $randomIndex = array_rand($users);
+    return $users[$randomIndex];
 }
-
 // User Like
 // Adds a like for the logged-in user and checks for a match
-public function userLike($userId) {
+public function userLike($userId, $randomUserId) {
     require_once 'database/conn.php';
-    $likedId = 9; // Temporary value, you can modify it to make it dynamic
+    // $likedId = 9; // Temporary value, you can modify it to make it dynamic
 
     // Check if the like already exists
     $checkSql = "SELECT * FROM likes WHERE liker_id = :userId AND liked_id = :likedId";
@@ -379,7 +375,7 @@ public function userLike($userId) {
                     VALUES (:userId, :likedId, 'liked', NOW())";
         $insertStmt = $conn->prepare($insertSql);
         $insertStmt->bindParam(':userId', $userId);
-        $insertStmt->bindParam(':likedId', $likedId);
+        $insertStmt->bindParam(':likedId', $randomUserId);
 
         // Execute the SQL statement
         if ($insertStmt->execute()) {
@@ -387,7 +383,7 @@ public function userLike($userId) {
             $mutualSql = "SELECT * FROM likes WHERE liker_id = :likedId AND liked_id = :userId";
             $mutualStmt = $conn->prepare($mutualSql);
             $mutualStmt->bindParam(':userId', $userId);
-            $mutualStmt->bindParam(':likedId', $likedId);
+            $mutualStmt->bindParam(':likedId', $randomUserId);
             $mutualStmt->execute();
 
             // If it's a mutual like, insert into matches table
@@ -396,19 +392,19 @@ public function userLike($userId) {
                              VALUES (:userId, :likedId, NOW())";
                 $matchStmt = $conn->prepare($matchSql);
                 $matchStmt->bindParam(':userId', $userId);
-                $matchStmt->bindParam(':likedId', $likedId);
+                $matchStmt->bindParam(':likedId', $randomUserId);
                 $matchStmt->execute();
 
                 if ($matchStmt->execute()) {
                     header("location:swipe.php");
-                    $_SESSION['message'] = "It's a match! " . $likedId;
+                    $_SESSION['message'] = "It's a match! " . $randomUserId;
                 } else {
                     echo "Error: Failed to insert into matches table.";
                 }
             }
 
             header("location:swipe.php");
-            $_SESSION['message'] = "Liked " . $likedId;
+            $_SESSION['message'] = "Liked " . $randomUserId;
         } else {
             echo "Error: " . $insertStmt->errorInfo()[2];
         }

@@ -220,6 +220,14 @@ nav .dropdown:hover .dropdown-content {
     height: auto;
 
 }
+
+.redirect a{
+    text-decoration: none;
+    color: black;
+}
+.bx-chat:hover {
+    /* color: red; */
+}
 .headerName:hover {
     font-size: xx-large;
 
@@ -421,3 +429,61 @@ nav .dropdown:hover .dropdown-content {
   cursor: pointer;
   outline: none;
   }
+  .matchedUserList {
+    width: 200px;
+    border-radius: 10px;
+    background-color: #fbdac4;
+   
+}
+
+.matchedUserList a {
+    text-decoration: none;
+    color: white;
+    font-size: large;
+}
+
+.randomUser {
+    border-radius: 5px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    width: 200px;
+    height: 200px;
+}
+
+  /* Footer */
+  footer {
+    margin-top: 200px;
+    background-color: gray;
+    border-radius: 10px;
+    padding: 0;
+    margin-left: 5%;
+    border: solid;
+    width: 90%;
+    height: 200px;
+
+}
+.bxs-phone {
+    font-size: larger;
+}
+.footerLink {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#icons {
+    color: white;
+    border-radius: 10px;
+    height: 30px;
+    width: 30px;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 40px 40px 500px rgb(0, 0, 0);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.footerIcons {
+    display: flex;
+    flex-direction: row;
+
+}

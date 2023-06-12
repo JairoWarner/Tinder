@@ -5,10 +5,12 @@
 
     if (isset($_GET['userId'])) { // Check if the 'userId' parameter is set in the URL
         $userId = $_GET['userId']; // Retrieve the 'userId' from the URL
+        $randomUserId = $_GET['randomUserId']; // Retrieve the 'randomUserId' from the URL
+
         // Use the $userId as needed
 
         $user1 = new User(); // Create a new instance of the User class
-        $user1->userLike($userId); // Call the userLike method on the User instance passing the userId
+        $user1->userLike($userId, $randomUserId); // Call the userLike method on the User instance passing the userId
     } else {
         echo "User ID not found in URL"; // Display a message if the 'userId' parameter is not found in the URL
     }

@@ -11,7 +11,7 @@
 <?php require 'includes/header.php'?>
 
 <!-- The main content section -->
-<div class="divRead">
+<div class="content">
     <div class="swipe">
 
         <?php 
@@ -44,16 +44,35 @@
     if (isset($_SESSION['userId'])) {
         // Get the user ID from the session
         $userId = $_SESSION['userId'];
-
+        // Get a random user
+        $randomUser = $user1->fetchRandomUser($userId);
+        $randomUserId = $randomUser['userId'];
+        if ($randomUser) {
+            // Display user information
+            echo "<div class='randomUser'>";
+            echo "<h1>".$randomUser['naam']."</h1>";
+            echo "<p>".$randomUser['bio']."</p>";
+            echo "</div>";
+            // echo "<p>".$randomUserId."</p>";
+        } else {
+            echo "No more users to display.";
+        }
         // Create a link to the liked.php page with the user ID as a parameter
-        $link = "liked.php?userId=" . $userId;
+        $link = "liked.php?userId=" . $userId . "&randomUserId=" . $randomUserId;
 
         // Output the link
         echo '<a href="' . $link . '">Like</a>';
+           // Create a link to the current page to get a new random user
+           $skipLink = $_SERVER['PHP_SELF'];
+        
+           // Output the skip link
+           echo '<br><a href="' . $skipLink . '">Skip</a>';
     } else {
         echo "User ID is not present in the session";
     }
+   
     ?>
+
 
     <!-- Display a message stored in the session -->
     <div id="messagePHP"><?php
