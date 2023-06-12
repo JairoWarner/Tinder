@@ -209,8 +209,20 @@ nav .dropdown:hover .dropdown-content {
 }
 /* Chat */
 .headerName {
-    font-size: large;
-    font-weight: bolder;
+    font-size: x-large;
+    font-weight: 900;
+    text-decoration: none;
+    color: rgb(62, 62, 62);
+    margin: 10px;
+    padding: 10px;
+    background-color: #FD746C;
+    border-radius: 20px;
+    height: auto;
+
+}
+.headerName:hover {
+    font-size: xx-large;
+
 }
 .chatContainer{
     margin: 10px;
@@ -219,19 +231,26 @@ nav .dropdown:hover .dropdown-content {
     place-items: center;
     
 }
-.chatForm {
-    margin: 10px;
+.chatBox {
+    border-radius: 10px;
+    box-shadow: 10px 10px 50px rgb(0, 0, 0);
+    margin: 10px; /* Adjust the margin as needed */
+    padding: 20px; /* Adjust the padding as needed */
+    background-color: #fbdac4;
+  }
+  
+  .chatForm {
+    margin: 10px; /* Adjust the margin as needed */
     padding: 10px;
     width: 400px;
     height: 500px;
     min-height: 100px;
     max-height: 500px;
-    /* display: grid;
-    place-content: center; */
-    box-shadow: 10px 10px 50px rgb(0, 0, 0);
     overflow-y: scroll;
     border-radius: 14px;
-}
+    background-color: white;
+  }
+  
 .messageContent {
     min-height: 50px;
     display: grid;
@@ -351,12 +370,13 @@ nav .dropdown:hover .dropdown-content {
  */
  .sendMessage{
     height: 40px;
-    margin: 0;
-    padding: 0;
+    margin: 10;
+    padding: 10;
     /* background-color: grey; */
     border-radius: 10px;
     display: flex;
     flex-direction: row;
+    margin-top: 40px;
 
  }
 

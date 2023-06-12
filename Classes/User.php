@@ -23,11 +23,9 @@ class User
 
 // methoden - functies -------------------
 // constructor
-    public function __construct($userId = NULL, $email = NULL, $password = NULL, $naam = NULL, $achternaam = NULL, $geboorteDatum = NULL, $geslacht = NULL, $locatie = NULL, $sexualOri = NULL, $schoolBaan = NULL, $interesses = NULL, $fotos = NULL, $showMe = NULL, $leeftijd = NULL, $ageRange = NULL, $bio = NULL)
+    public function __construct($userId = NULL, $naam = NULL, $achternaam = NULL, $geboorteDatum = NULL, $geslacht = NULL, $locatie = NULL, $sexualOri = NULL, $schoolBaan = NULL, $interesses = NULL, $fotos = NULL, $showMe = NULL, $leeftijd = NULL, $ageRange = NULL, $bio = NULL)
     {
         $this->userId = $userId;
-        $this->email = $email;
-        $this->password = $password;
         $this->naam = $naam;
         $this->achternaam = $achternaam;
         $this->geboorteDatum = $geboorteDatum;
@@ -259,10 +257,10 @@ public function getEmail() {
 
 // Update User
 // Updates user information in the database
-public function updateUser($userId, $naam, $achternaam, $geboorteDatum, $geslacht, $locatie, $sexualOri, $schoolBaan, $interesses, $fotos, $showMe, $leeftijd, $ageRange, $bio, $email) {
+public function updateUser($userId, $naam, $achternaam, $geboorteDatum, $geslacht, $locatie, $sexualOri, $schoolBaan, $interesses, $fotos, $showMe, $leeftijd, $ageRange, $bio) {
     require 'database/conn.php';
     // Prepare the SQL statement
-    $sql = $conn->prepare('UPDATE users SET naam = :naam, achternaam = :achternaam, geboorteDatum = :geboorteDatum, geslacht = :geslacht, locatie = :locatie, sexualOri = :sexualOri, schoolBaan = :schoolBaan, interesses = :interesses, fotos = :fotos, showMe = :showMe, leeftijd = :leeftijd, ageRange = :ageRange, bio = :bio, email = :email WHERE userId = :userId');
+    $sql = $conn->prepare('UPDATE users SET naam = :naam, achternaam = :achternaam, geboorteDatum = :geboorteDatum, geslacht = :geslacht, locatie = :locatie, sexualOri = :sexualOri, schoolBaan = :schoolBaan, interesses = :interesses, fotos = :fotos, showMe = :showMe, leeftijd = :leeftijd, ageRange = :ageRange, bio = :bio WHERE userId = :userId');
 
     // Bind parameters with values
     $sql->bindParam(':userId', $userId);
@@ -279,7 +277,6 @@ public function updateUser($userId, $naam, $achternaam, $geboorteDatum, $geslach
     $sql->bindParam(':leeftijd', $leeftijd);
     $sql->bindParam(':ageRange', $ageRange);
     $sql->bindParam(':bio', $bio);
-    $sql->bindParam(':email', $email);
 
     // Execute the SQL statement
     $sql->execute();
