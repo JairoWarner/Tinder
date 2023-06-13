@@ -52,6 +52,7 @@
             echo "<div class='randomUser'>";
             echo "<h1>".$randomUser['naam']."</h1>";
             echo "<p>".$randomUser['bio']."</p>";
+            echo "<p>".$randomUser['geslacht']."</p>";
             echo "</div>";
             // echo "<p>".$randomUserId."</p>";
         } else {

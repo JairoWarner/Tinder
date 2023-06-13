@@ -333,21 +333,64 @@ public function findUser($userId) {
 
 // Fetch Users
 // Fetches the userId of all users with the right gender for the logged-in user
+// public function fetchRandomUser($userId) {
+//     require 'database/database.php';
+
+//     $sql = $conn->prepare('SELECT userId, naam, bio, geslacht
+//         FROM users
+//         WHERE userId != :userId
+//             AND (
+//                 showMe = "both" OR
+//                 (showMe = "Male" AND geslacht = "Male") OR
+//                 (showMe = "Female" AND geslacht = "Female")
+//             )');
+//     $sql->bindParam(':userId', $userId);
+//     $sql->execute();
+
+//     $users = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+//     if (empty($users)) {
+//         return null;
+//     }
+
+//     $randomIndex = array_rand($users);
+//     return $users[$randomIndex];
+// }
 public function fetchRandomUser($userId) {
     require 'database/database.php';
 
-    $sql = $conn->prepare('SELECT userId, naam, bio
-        FROM users
-        WHERE userId != :userId
-            AND (
-                showMe = "both" OR
-                (showMe = "male" AND geslacht = "male") OR
-                (showMe = "female" AND geslacht = "female")
-            )');
-    $sql->bindParam(':userId', $userId);
-    $sql->execute();
+    // Fetch the showMe value of the logged-in user from the database
+    $stmt = $conn->prepare('SELECT showMe FROM users WHERE userId = :userId');
+    $stmt->bindParam(':userId', $userId);
+    $stmt->execute();
+    $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+    $showMe = $userData['showMe'];
 
-    $users = $sql->fetchAll(PDO::FETCH_ASSOC);
+    // Echo the showMe value for testing
+    echo "showMe value: " . $showMe . "<br>";
+
+    // Construct the SQL query dynamically based on the showMe value
+    $sql = 'SELECT userId, naam, bio, geslacht
+            FROM users
+            WHERE userId != :userId ';
+
+    $params = [':userId' => $userId];
+
+    if ($showMe == 'both') {
+        // Show both genders
+        $sql .= 'AND geslacht IN ("Male", "Female")';
+    } elseif ($showMe == 'Male') {
+        // Show only male users
+        $sql .= 'AND geslacht = "Male"';
+    } elseif ($showMe == 'Female') {
+        // Show only female users
+        $sql .= 'AND geslacht = "Female"';
+    }
+
+    // Execute the final query with the constructed SQL and parameters
+    $stmt = $conn->prepare($sql);
+    $stmt->execute($params);
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if (empty($users)) {
         return null;
@@ -356,11 +399,14 @@ public function fetchRandomUser($userId) {
     $randomIndex = array_rand($users);
     return $users[$randomIndex];
 }
+
+
+
 // User Like
 // Adds a like for the logged-in user and checks for a match
 public function userLike($userId, $randomUserId) {
     require_once 'database/conn.php';
-    // $likedId = 9; // Temporary value, you can modify it to make it dynamic
+    $likedId = $randomUserId;
 
     // Check if the like already exists
     $checkSql = "SELECT * FROM likes WHERE liker_id = :userId AND liked_id = :likedId";
@@ -375,7 +421,7 @@ public function userLike($userId, $randomUserId) {
                     VALUES (:userId, :likedId, 'liked', NOW())";
         $insertStmt = $conn->prepare($insertSql);
         $insertStmt->bindParam(':userId', $userId);
-        $insertStmt->bindParam(':likedId', $randomUserId);
+        $insertStmt->bindParam(':likedId', $likedId);
 
         // Execute the SQL statement
         if ($insertStmt->execute()) {
@@ -383,23 +429,35 @@ public function userLike($userId, $randomUserId) {
             $mutualSql = "SELECT * FROM likes WHERE liker_id = :likedId AND liked_id = :userId";
             $mutualStmt = $conn->prepare($mutualSql);
             $mutualStmt->bindParam(':userId', $userId);
-            $mutualStmt->bindParam(':likedId', $randomUserId);
+            $mutualStmt->bindParam(':likedId', $likedId);
             $mutualStmt->execute();
 
             // If it's a mutual like, insert into matches table
             if ($mutualStmt->rowCount() > 0) {
-                $matchSql = "INSERT INTO matches (user_id_1, user_id_2, match_date)
-                             VALUES (:userId, :likedId, NOW())";
-                $matchStmt = $conn->prepare($matchSql);
-                $matchStmt->bindParam(':userId', $userId);
-                $matchStmt->bindParam(':likedId', $randomUserId);
-                $matchStmt->execute();
+                // Check if the match already exists
+                $matchExistsSql = "SELECT * FROM matches WHERE (user_id_1 = :userId AND user_id_2 = :likedId)
+                                    OR (user_id_1 = :likedId AND user_id_2 = :userId)";
+                $matchExistsStmt = $conn->prepare($matchExistsSql);
+                $matchExistsStmt->bindParam(':userId', $userId);
+                $matchExistsStmt->bindParam(':likedId', $likedId);
+                $matchExistsStmt->execute();
 
-                if ($matchStmt->execute()) {
-                    header("location:swipe.php");
-                    $_SESSION['message'] = "It's a match! " . $randomUserId;
-                } else {
-                    echo "Error: Failed to insert into matches table.";
+                if ($matchExistsStmt->rowCount() === 0) {
+                    $matchSql = "INSERT INTO matches (user_id_1, user_id_2, match_date)
+                                 VALUES (:userId, :likedId, NOW())";
+                    $matchStmt = $conn->prepare($matchSql);
+                    $matchStmt->bindParam(':userId', $userId);
+                    $matchStmt->bindParam(':likedId', $likedId);
+                    $matchStmt->execute();
+
+                    if ($matchStmt->rowCount() > 0) {
+                        header("location:swipe.php");
+                        $_SESSION['message'] = "It's a match! " . $likedId;
+                        return;
+                    } else {
+                        echo "Error: Failed to insert into matches table.";
+                        return;
+                    }
                 }
             }
 
@@ -410,7 +468,7 @@ public function userLike($userId, $randomUserId) {
         }
     } else {
         header("location:swipe.php");
-        $_SESSION['message'] = "User already liked this person";
+        $_SESSION['message'] = "You already liked this person";
     }
 }
 
