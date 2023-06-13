@@ -225,9 +225,7 @@ nav .dropdown:hover .dropdown-content {
     text-decoration: none;
     color: black;
 }
-.bx-chat:hover {
-    /* color: red; */
-}
+
 .headerName:hover {
     font-size: xx-large;
 
@@ -298,19 +296,7 @@ nav .dropdown:hover .dropdown-content {
     flex-direction: column;
     
 }
-.bxs-trash, .bxs-edit-alt {
-    color: rgb(222, 217, 217);
-}
 
-.bx:hover, .bx-trash:hover {
-    color: red;
-    font-size: x-large;
-}
-.bxs-edit-alt:hover {
-    color: blue;
-    font-size: large;
-
-}
 
 .infoDiv {
     height: 20px;
@@ -433,13 +419,25 @@ nav .dropdown:hover .dropdown-content {
     width: 200px;
     border-radius: 10px;
     background-color: #fbdac4;
-   
+   padding: 10px;
+   margin: 10px;
 }
 
 .matchedUserList a {
     text-decoration: none;
-    color: white;
+    color: black;
     font-size: large;
+}
+.matchesDiv {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    padding: 10px;
+}
+.matchedUserList:hover {
+    text-decoration: none;
+    color: black;
+    font-weight: bolder;
+    font-size: larger;
 }
 
 .randomUser {
@@ -448,6 +446,21 @@ nav .dropdown:hover .dropdown-content {
     width: 200px;
     height: 200px;
 }
+.cancel-button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  float: right;
+}
+
+.bxs-hot:hover, .bx-chat:hover {
+    font-size: large;
+    font-weight: bolder;
+    color: red;
+}
+
 
   /* Footer */
   footer {

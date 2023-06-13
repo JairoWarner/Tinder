@@ -38,6 +38,7 @@
         // var_dump($matchedUserIds)
 
         if (!empty($matchedUserIds)) { // Check if there are matched user IDs
+            echo '<div class="matchesDiv">';
             foreach ($matchedUserIds as $matchedUserId) { // Iterate through the matched user IDs
                 $matchedUser = $user->matchedUser($matchedUserId); // Call the matchedUser method of the User class
 
@@ -49,9 +50,11 @@
                     $url = "chatForm.php?action=chat&matchedUserId=" . urlencode($matchedUserId);
         
                     // Output the link and additional user information
-                    echo '<li class="matchedUserList" ><a href="' . $url . '">' . $matchedUserName . ' ' . $matchedUserSurName . '</a></li>';
+                    echo '<li class="matchedUserList" ></i><a href="' . $url . '"><i class="bx bx-user-circle">' . $matchedUserName . ' ' . $matchedUserSurName . '</a></li>';
                 }
             }
+            echo '</div>';
+
         } else {
             echo "No matches found.";
         }
@@ -67,5 +70,8 @@
     
 </div>
 <?php require 'includes/footer.php'?> <!-- Include the footer.php file -->
+<style>
+
+    </style>
 </body>
 </html>

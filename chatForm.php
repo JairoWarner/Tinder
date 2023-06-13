@@ -81,24 +81,41 @@
 </div>
 
 <script>
-    function editMessage(chatId) {
-        var messageText = document.getElementById('message-text-' + chatId);
-        var currentText = messageText.innerHTML.trim();
-        
-        var inputField = document.createElement('input');
-        inputField.type = 'text';
-        inputField.value = currentText;
-        inputField.id = 'edit-input-' + chatId;
-        
-        var submitButton = document.createElement('button');
-        submitButton.type = 'button';
-        submitButton.onclick = function() { submitMessage(chatId, matchedUserId); };
-        submitButton.innerHTML = 'edit message';
-        
-        messageText.innerHTML = '';
-        messageText.appendChild(inputField);
-        messageText.appendChild(submitButton);
-    }
+    function cancelEdit(chatId) {
+  var messageText = document.getElementById('message-text-' + chatId);
+  var currentText = document.getElementById('edit-input-' + chatId).value;
+  
+  messageText.innerHTML = currentText;
+}
+
+
+function editMessage(chatId) {
+  var messageText = document.getElementById('message-text-' + chatId);
+  var currentText = messageText.innerHTML.trim();
+  
+  var inputField = document.createElement('input');
+  inputField.type = 'text';
+  inputField.value = currentText;
+  inputField.id = 'edit-input-' + chatId;
+  
+  var submitButton = document.createElement('button');
+  submitButton.type = 'button';
+  submitButton.onclick = function() { submitMessage(chatId, matchedUserId); };
+  submitButton.innerHTML = '<i class="bx bx-check">edit message</i>';
+
+  var cancelButton = document.createElement('button');
+cancelButton.type = 'button';
+cancelButton.onclick = function() { cancelEdit(chatId); };
+cancelButton.innerHTML = "<i class='bx bx-x'></i>";
+cancelButton.classList.add('cancel-button');
+
+  
+  messageText.innerHTML = '';
+  messageText.appendChild(inputField);
+  messageText.appendChild(submitButton);
+  messageText.appendChild(cancelButton);
+}
+
     function submitMessage(chatId, matchedUserId) {
 
         var editedText = document.getElementById('edit-input-' + chatId).value.trim();
@@ -139,6 +156,31 @@
         flex-direction: row;
         width: 100%;
     }
+    .bxs-trash, .bxs-edit-alt {
+    color: rgb(222, 217, 217);
+}
+
+.bxs-trash:hover {
+    color: red;
+    font-size: x-large;
+}
+.bxs-edit-alt:hover {
+    color: blue;
+    font-size: large;
+
+}
+.bx-x {
+    font-size: x-large;
+    color: red;
+
+}
+.bx-x:hover {
+    font-weight: bolder;
+}
+.bx-check:hover {
+    color: green;
+    font-weight: bold;
+}
 </style>
 
     
