@@ -37,53 +37,74 @@
             // Get the user ID based on the email
             $user1->getUserIdSession($email);
         ?>
-    </div>
+        <div class="swipeContent">
+            <!-- Display a link to the liked.php page if the user ID is present in the session -->
+            <?php
+                if (isset($_SESSION['userId'])) {
+                    // Get the user ID from the session
+                    $userId = $_SESSION['userId'];
+                    // Get a random user
+                    $randomUser = $user1->fetchRandomUser($userId);
+                    if (isset($randomUser['message'])) {
+                        echo $randomUser['message'];
+                    } else {
+                        $randomUserId = $randomUser['userId'];
+
+                        if ($randomUser) {
+                            // Display user information
+                            echo "<div class='randomUser'>";
+                            echo "<h1>".$randomUser['naam']."</h1>";
+                            echo "<p>".$randomUser['bio']."</p>";
+                            echo "<p>".$randomUser['geslacht']."</p>";
+                            echo "<p> Age: ".$randomUser['leeftijd']."</p>";
+                            echo "</div>";
+                            // echo "<p>".$randomUserId."</p>";
+                        } else {
+                            echo "No more users to display.";
+                        }
+                        echo '<div class="swipeButtons">';
+                        
+                        // Output the skip link
+                        echo ' <div class="kruis">';
+                        $skipLink = $_SERVER['PHP_SELF'];
+
+                        echo '<a href="' . $skipLink . '"><button class="doerustig1" type="submit"><i class="bx bx-x"></i></button></a>';
+                        echo '</div>';
+                        // Create a link to the liked.php page with the user ID as a parameter
+                        $link = "liked.php?userId=" . $userId . "&randomUserId=" . $randomUserId;
+                        echo ' <div class="hart">';
+                        echo '<a class="link" href=' . $link . '"><button class="doerustig2" type="submit"><i class="bx bx-heart"></i></button></a>';
+                        echo '</div>';                 
+                        echo '</div>';
+                    }
+                    ?>
+                    <!-- Display a message stored in the session -->
+                    <div id="messagePHP"><?php
+                        if (isset($_SESSION['message'])) {
+                            // Output the message
+                            echo $_SESSION['message'];
+                            // Remove the message from the session
+                            unset($_SESSION['message']);
+                        }
+                    ?></div>
+                    <?php
+                } else {
+                    echo "User ID is not present in the session";
+                }
     
-    <!-- Display a link to the liked.php page if the user ID is present in the session -->
-    <?php
-    if (isset($_SESSION['userId'])) {
-        // Get the user ID from the session
-        $userId = $_SESSION['userId'];
-        // Get a random user
-        $randomUser = $user1->fetchRandomUser($userId);
-        $randomUserId = $randomUser['userId'];
-        if ($randomUser) {
-            // Display user information
-            echo "<div class='randomUser'>";
-            echo "<h1>".$randomUser['naam']."</h1>";
-            echo "<p>".$randomUser['bio']."</p>";
-            echo "<p>".$randomUser['geslacht']."</p>";
-            echo "</div>";
-            // echo "<p>".$randomUserId."</p>";
-        } else {
-            echo "No more users to display.";
-        }
-        // Create a link to the liked.php page with the user ID as a parameter
-        $link = "liked.php?userId=" . $userId . "&randomUserId=" . $randomUserId;
+            ?>
 
-        // Output the link
-        echo '<a href="' . $link . '">Like</a>';
-           // Create a link to the current page to get a new random user
-           $skipLink = $_SERVER['PHP_SELF'];
-        
-           // Output the skip link
-           echo '<br><a href="' . $skipLink . '">Skip</a>';
-    } else {
-        echo "User ID is not present in the session";
-    }
-   
-    ?>
+            <div class="redirect">
+                <a href="matches.php"><i class='bx bx-chat'>Matches</i></a>
+            </div>
+        </div>
+        </div>
+    </div>
 
 
-    <!-- Display a message stored in the session -->
-    <div id="messagePHP"><?php
-        if (isset($_SESSION['message'])) {
-            // Output the message
-            echo $_SESSION['message'];
-            // Remove the message from the session
-            unset($_SESSION['message']);
-        }
-    ?></div>
+
+
+</div>
 
 <?php require 'includes/footer.php'?>
 </body>

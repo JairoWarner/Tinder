@@ -76,18 +76,18 @@ include("includes/header.php");
                             <option value="Other">Other</option>
                             </select><br><br>
                             <label for="country">Country:</label>
-  <select name="country" id="country" required>
-    <option value="">Select Country</option>
-    <option value="Netherlands">Netherlands</option>
-    <option value="United States">United States</option>
-    <option value="United Kingdom">United Kingdom</option>
-  </select><br><br>
+                            <select name="country" id="country" required>
+                              <option value="">Select Country</option>
+                              <option value="Netherlands">Netherlands</option>
+                              <option value="United States">United States</option>
+                              <option value="United Kingdom">United Kingdom</option>
+                            </select><br><br>
 
-  <label for="postcode">Postcode:</label>
-  <input type="text" name="postcode" id="postcode" required><br><br>
+                            <label for="postcode">Postcode:</label>
+                            <input type="text" name="postcode" id="postcode" required><br><br>
 
-  <label for="address">Address:</label>
-  <select name="address" id="address"></select><br><br>
+                            <label for="address">Address:</label>
+                            <select name="address" id="address"></select><br><br>
 
 
                            
@@ -118,7 +118,7 @@ include("includes/header.php");
                             </form>
                             </label> -->
                             <label for="fotos">Fotos:</label>
-                            <input type="file" name="fotos" id="fotos"><br><br>
+                            <input type="file" name="image" id="fotos"><br><br>
 
                             <label for="showMe">Show Me:</label>
                             <select name="showMe" id="showMe" required>

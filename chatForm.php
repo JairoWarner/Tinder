@@ -12,6 +12,9 @@
 <body>
 <?php require 'includes/header.php'?> <!-- Include the header.php file -->
 <div class="chatContainer">
+<div class="redirect">
+        <a href="matches.php"><i class='bx bx-chat'>Go back</i></a>
+    </div>
     <div class="chatBox">
 
         <?php 

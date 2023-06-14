@@ -55,21 +55,37 @@
                     $matchedUserBio = $user['bio'];
                 
                     // Display the matched user's data
-                    echo "Name: $matchedUserName<br>";
-                    echo "Email: $matchedUserEmail<br>";
-                    echo "Surname: $matchedUserSurname<br>";
-                    echo "Date of Birth: $matchedUserDateOfBirth<br>";
-                    echo "Gender: $matchedUserGender<br>";
-                    echo "Location: $matchedUserLocation<br>";
-                    echo "Sexual Orientation: $matchedUserSexualOrientation<br>";
-                    echo "School/Job: $matchedUserSchoolJob<br>";
-                    echo "Hobbies: $matchedUserHobbies<br>";
-                    echo "Photos: $matchedUserPhotos<br>";
-                    echo "Preference: $matchedUserPreference<br>";
-                    echo "Age: $matchedUserAge<br>";
-                    echo "Age Range: $matchedUserAgeRange<br>";
-                    echo "Bio: $matchedUserBio<br>";
-                    echo "<br>";
+                    echo '<div class="readList">'; // Output a div element with the class "readList"
+                    // Output the content in two columns
+                    echo '<div class="columns">';
+                            
+                    echo '<div class="column">'; // Open the first column
+                    echo '<ul>'; // Output an unordered list element
+                    // Output individual list items with user information
+                    echo '<li><div class="label">Name:</div><div class="value">' . $matchedUserName . '</div></li>';
+                    echo '<li><div class="label">Email:</div><div class="value">' . $matchedUserEmail . '</div></li>';
+                    echo '<li><div class="label">Surname:</div><div class="value">' . $matchedUserSurname . '</div></li>';
+                    echo '<li><div class="label">Date of Birth:</div><div class="value">' . $matchedUserDateOfBirth . '</div></li>';
+                    echo '<li><div class="label">Gender:</div><div class="value">' . $matchedUserGender . '</div></li>';
+                    echo '<li><div class="label">Location:</div><div class="value">' . $matchedUserLocation . '</div></li>';
+                    echo '<li><div class="label">Sexual Orientation:</div><div class="value">' . $matchedUserSexualOrientation . '</div></li>';
+                    echo '</ul>'; // Close the first list
+                    echo '</div>'; // Close the first column
+                    
+                    echo '<div class="column">'; // Open the second column
+                    echo '<ul>'; // Open the second list
+                    echo '<li><div class="label">School/Job:</div><div class="value">' . $matchedUserSchoolJob . '</div></li>';
+                    echo '<li><div class="label">Hobbies:</div><div class="value">' . $matchedUserHobbies . '</div></li>';
+                    echo '<li><div class="label">Photos:</div><div class="value">' . $matchedUserPhotos . '</div></li>';
+                    echo '<li><div class="label">Preference:</div><div class="value">' . $matchedUserPreference . '</div></li>';
+                    echo '<li><div class="label">Age:</div><div class="value">' . $matchedUserAge . '</div></li>';
+                    echo '<li><div class="label">Age Range:</div><div class="value">' . $matchedUserAgeRange . '</div></li>';
+                    echo '<li><div class="label">Bio:</div><div class="value">' . $matchedUserBio . '</div></li>';
+                    echo '</ul>';
+                    
+                    echo '</div>'; // Close the "readList" div element
+                    echo '<br>'; // Output a line break
+                    
                 }
             }
         ?>

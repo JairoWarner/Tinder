@@ -227,31 +227,47 @@ public function getEmail() {
             echo '<div class="buttons">'; // Output a div element with the class "buttons"
             echo '<a href="UpdateForm.php?action=update&userId=' . $user['userId'] . '" class="updateButton"><i class="bx bxs-edit-alt">Update</i></a>'; // Output an anchor element for updating the user with a specific user ID
             echo '<a href="userDelete.php?action=delete&userId=' . $user['userId'] . '" class="deleteButton" onclick="return confirm(\'Are you sure you want to delete your account?\')"><i class= "bx bxs-trash">Delete</i></a>'; // Output an anchor element for deleting the user with a specific user ID, with a confirmation dialog
-
             echo '</div>'; // Close the "buttons" div element
+            
+            // Output the content in two columns
+            echo '<div class="columns">';
+            
+            echo '<div class="column">'; // Open the first column
             echo '<ul>'; // Output an unordered list element
-
+            
             // Output individual list items with user information
-            echo '<li>UserID: ' . $user['userId'] . '</li>';
-            echo '<li>Email: ' . $user['email'] . '</li>';
-            echo '<li>Name: ' . $user['naam'] . '</li>';
-            echo '<li>Surname: ' . $user['achternaam'] . '</li>';
-            echo '<li>Date of Birth: ' . $user['geboorteDatum'] . '</li>';
-            echo '<li>Gender: ' . $user['geslacht'] . '</li>';
-            echo '<li>Location: ' . $user['locatie'] . '</li>';
-            echo '<li>Sexual Orientation: ' . $user['sexualOri'] . '</li>';
-            echo '<li>School/Job: ' . $user['schoolBaan'] . '</li>';
-            echo '<li>Hobbies: ' . $user['interesses'] . '</li>';
-            echo '<li>Foto\'s: ' . $user['fotos'] . '</li>';
-            echo '<li>Preference: ' . $user['showMe'] . '</li>';
-            echo '<li>Age: ' . $user['leeftijd'] . '</li>';
-            echo '<li>Age Range: ' . $user['ageRange'] . '</li>';
-            echo '<li>Bio: ' . $user['bio'] . '</li>';
+            echo '<li><div class="label">UserID:</div><div class="value">' . $user['userId'] . '</div></li>';
+            echo '<li><div class="label">Email:</div><div class="value">' . $user['email'] . '</div></li>';
+            echo '<li><div class="label">Name:</div><div class="value">' . $user['naam'] . '</div></li>';
+            echo '<li><div class="label">Surname:</div><div class="value">' . $user['achternaam'] . '</div></li>';
+            echo '<li><div class="label">Date of Birth:</div><div class="value">' . $user['geboorteDatum'] . '</div></li>';
+            echo '<li><div class="label">Gender:</div><div class="value">' . $user['geslacht'] . '</div></li>';
+            echo '<li><div class="label">Location:</div><div class="value">' . $user['locatie'] . '</div></li>';
+            echo '<li><div class="label">Sexual Orientation:</div><div class="value">' . $user['sexualOri'] . '</div></li>';
 
-            echo '</ul>'; // Close the unordered list element
+            echo '</ul>'; // Close the first list
+            echo '</div>'; // Close the first column
+            
+            echo '<div class="column">'; // Open the second column
+            echo '<ul>'; // Open the second list
+            
+            echo '<li><div class="label">School/Job:</div><div class="value">' . $user['schoolBaan'] . '</div></li>';
+            echo '<li><div class="label">Hobbies:</div><div class="value">' . $user['interesses'] . '</div></li>';
+            echo '<li><div class="label">Foto\'s:</div><div class="value">' . $user['fotos'] . '</div></li>';
+            echo '<li><div class="label">Preference:</div><div class="value">' . $user['showMe'] . '</div></li>';
+            echo '<li><div class="label">Age:</div><div class="value">' . $user['leeftijd'] . '</div></li>';
+            echo '<li><div class="label">Age Range:</div><div class="value">' . $user['ageRange'] . '</div></li>';
+            echo '<li><div class="label">Bio:</div><div class="value">' . $user['bio'] . '</div></li>';
+            
+            echo '</ul>'; // Close the second list
+            echo '</div>'; // Close the second column
+            
+            echo '</div>'; // Close the "columns" div element
+            
             echo '</div>'; // Close the "readList" div element
             echo '<br>'; // Output a line break
-        }
+            
+        }            
     }
 
 
@@ -336,18 +352,46 @@ public function findUser($userId) {
 // public function fetchRandomUser($userId) {
 //     require 'database/database.php';
 
-//     $sql = $conn->prepare('SELECT userId, naam, bio, geslacht
-//         FROM users
-//         WHERE userId != :userId
-//             AND (
-//                 showMe = "both" OR
-//                 (showMe = "Male" AND geslacht = "Male") OR
-//                 (showMe = "Female" AND geslacht = "Female")
-//             )');
-//     $sql->bindParam(':userId', $userId);
-//     $sql->execute();
+//     // Fetch the showMe and ageRange values of the logged-in user from the database
+//     $stmt = $conn->prepare('SELECT showMe, ageRange FROM users WHERE userId = :userId');
+//     $stmt->bindParam(':userId', $userId);
+//     $stmt->execute();
+//     $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+//     $showMe = $userData['showMe'];
+//     $ageRange = $userData['ageRange'];
 
-//     $users = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+
+//     // Construct the SQL query dynamically based on the showMe and ageRange values
+//     $sql = 'SELECT userId, naam, bio, geslacht, leeftijd
+//             FROM users
+//             WHERE userId != :userId ';
+
+//     $params = [':userId' => $userId];
+
+//     if ($showMe == 'both') {
+//         // Show both genders
+//         $sql .= 'AND geslacht IN ("Male", "Female")';
+//     } elseif ($showMe == 'Male') {
+//         // Show only male users
+//         $sql .= 'AND geslacht = "Male"';
+//     } elseif ($showMe == 'Female') {
+//         // Show only female users
+//         $sql .= 'AND geslacht = "Female"';
+//     }
+
+//     // Add the ageRange condition to the SQL query
+//     if (!empty($ageRange)) {
+//         list($minAge, $maxAge) = explode('-', $ageRange);
+//         $sql .= ' AND leeftijd >= :minAge AND leeftijd <= :maxAge';
+//         $params[':minAge'] = $minAge;
+//         $params[':maxAge'] = $maxAge;
+//     }
+
+//     // Execute the final query with the constructed SQL and parameters
+//     $stmt = $conn->prepare($sql);
+//     $stmt->execute($params);
+//     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //     if (empty($users)) {
 //         return null;
@@ -359,22 +403,20 @@ public function findUser($userId) {
 public function fetchRandomUser($userId) {
     require 'database/database.php';
 
-    // Fetch the showMe value of the logged-in user from the database
-    $stmt = $conn->prepare('SELECT showMe FROM users WHERE userId = :userId');
+    // Fetch the showMe and ageRange values of the logged-in user from the database
+    $stmt = $conn->prepare('SELECT showMe, ageRange FROM users WHERE userId = :userId');
     $stmt->bindParam(':userId', $userId);
     $stmt->execute();
     $userData = $stmt->fetch(PDO::FETCH_ASSOC);
     $showMe = $userData['showMe'];
+    $ageRange = $userData['ageRange'];
 
-    // Echo the showMe value for testing
-    echo "showMe value: " . $showMe . "<br>";
-
-    // Construct the SQL query dynamically based on the showMe value
-    $sql = 'SELECT userId, naam, bio, geslacht
+    // Construct the SQL query dynamically based on the showMe and ageRange values
+    $sql = 'SELECT userId, naam, bio, geslacht, leeftijd
             FROM users
             WHERE userId != :userId ';
 
-    $params = [':userId' => $userId];
+    $params = [':userId' => $userId, ':likerId' => $userId];
 
     if ($showMe == 'both') {
         // Show both genders
@@ -387,18 +429,35 @@ public function fetchRandomUser($userId) {
         $sql .= 'AND geslacht = "Female"';
     }
 
+    // Add the check for the logged-in user's liked users
+    $sql .= ' AND userId NOT IN (
+        SELECT liked_id
+        FROM likes
+        WHERE liker_id = :likerId
+    )';
+
+    // Add the ageRange condition to the SQL query
+    if (!empty($ageRange)) {
+        list($minAge, $maxAge) = explode('-', $ageRange);
+        $sql .= ' AND leeftijd >= :minAge AND leeftijd <= :maxAge';
+        $params[':minAge'] = $minAge;
+        $params[':maxAge'] = $maxAge;
+    }
+
     // Execute the final query with the constructed SQL and parameters
     $stmt = $conn->prepare($sql);
     $stmt->execute($params);
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if (empty($users)) {
-        return null;
+        return ['message' => 'You have liked every potential match that align with your preferences.']; // Return a message when no users are found
     }
 
     $randomIndex = array_rand($users);
     return $users[$randomIndex];
 }
+
+
 
 
 

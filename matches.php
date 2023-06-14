@@ -67,11 +67,17 @@
             unset($_SESSION['message']); // Remove the message from the session
         }
     ?>
-    
+    <div class="redirect">
+        <a href="swipe.php"><i class='bx bxs-hot'>Swipe here!</i></a>
+    </div>
+       
 </div>
 <?php require 'includes/footer.php'?> <!-- Include the footer.php file -->
 <style>
-
+.bx:hover {
+    font-weight: bold;
+    
+}
     </style>
 </body>
 </html>

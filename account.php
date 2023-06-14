@@ -12,9 +12,7 @@
 
 <!-- The main content section -->
 <div class="content">
-    <div class="divRead">
-        <p>Dit zijn alle klant gegevens uit de database:</p>
-        
+    <div class="divRead">        
         <!-- Display the user information -->
         <div class="read">
             <?php 
@@ -23,7 +21,7 @@
                 
                 // Retrieve the email from the session
                 $email = $_SESSION['email'];
-
+                echo '<p>Welkom ' . $email . '</p>';
                 // Create a new User object
                 $user1 = new User();
 
@@ -31,14 +29,18 @@
                 $user1->readUser($email);
             ?>
             
+            
             <!-- Redirect links -->
-            <div class="redirect">
-                <a href="swipe.php"><i class='bx bxs-hot'>Swipe here!</i></a>
-            </div>
-            <div class="redirect">
-                <a href="matches.php"><i class='bx bx-chat'>Matches</i></a>
+            <div class="redirectContainer">
+                <div class="redirect">
+                    <a href="swipe.php"><i class='bx bxs-hot'>Swipe here!</i></a>
+                </div>
+                <div class="redirect">
+                    <a href="matches.php"><i class='bx bx-chat'>Matches</i></a>
+                </div>
             </div>
         </div>
+
         
         <!-- Display a message stored in the session -->
         <div id="messagePHP"><?php

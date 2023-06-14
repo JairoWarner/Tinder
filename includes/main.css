@@ -83,6 +83,10 @@ nav .dropdown:hover .dropdown-content {
     margin: 10px;
     min-height: 600px;
     margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     /* background-color: grey; */
 }
 .accountPage {
@@ -224,6 +228,16 @@ nav .dropdown:hover .dropdown-content {
 .redirect a{
     text-decoration: none;
     color: black;
+}
+.redirect {
+    margin: 10px;
+    padding: 10px;
+}
+
+.redirectContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .headerName:hover {
@@ -440,12 +454,7 @@ nav .dropdown:hover .dropdown-content {
     font-size: larger;
 }
 
-.randomUser {
-    border-radius: 5px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    width: 200px;
-    height: 200px;
-}
+
 .cancel-button {
   border: none;
   background: none;
@@ -460,7 +469,108 @@ nav .dropdown:hover .dropdown-content {
     font-weight: bolder;
     color: red;
 }
+.bx {
+    font-size: large;
+}
 
+/* read */
+.readList li {
+    margin: 10px;
+    padding: 10px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: auto;
+    max-width: 300px;
+    border-radius: 10px;
+    background-color: #f9a384;
+}
+li {
+    list-style-type: none;
+
+}
+.columns {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+
+}
+
+/* swipe */
+.swipe {
+    display: flex;
+    justify-content: center;
+}
+.swipeButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.randomUser {
+    border-radius: 5px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    width: 300px;
+    height: auto;
+    margin: 10px;
+    padding: 10px;
+    /* margin-left: 44%; */
+
+}
+.swipeContent {
+    margin: 10px;
+    padding: 10px;
+
+}
+
+.doerustig1{
+    border-radius: 50%;
+    border: 6px solid red;
+    height: 80px;
+    width: 80px;
+    background-color: white;
+    cursor: pointer;
+}
+
+
+
+.doerustig2{
+    border-radius: 50%;
+    border: 6px solid mediumpurple;
+    height: 80px;
+    width: 80px;
+    background-color: white;
+    cursor: pointer;
+}
+.kruis{
+    /* position: absolute; */
+    /* margin-top: 10%; */
+    /* margin-left: 37%; */
+    /* z-index: 2; */
+}
+
+
+.hart {
+
+    /* position: absolute; */
+    /* margin-left: 63%; */
+    /* margin-top:10%; */
+    /* z-index: 2; */
+}
+
+
+.bx-heart{
+    color: mediumpurple;
+    font-size: 55px;
+}
+
+
+.bx-x{
+    color: red;
+    font-size: 55px;
+}
 
   /* Footer */
   footer {
