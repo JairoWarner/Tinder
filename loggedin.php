@@ -28,6 +28,9 @@
                 <button><a href="swipe.php">Start swiping</a> </button>
             </div>
         </div>
+        <div class="redirect">
+                <a href="matches.php"><i class='bx bx-chat'>Matches</i></a>
+            </div>
     </div>
 
     </div>

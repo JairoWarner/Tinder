@@ -468,7 +468,7 @@ public function fetchRandomUser($userId) {
     $userCount = count($users); // Get the count of users
 
     if ($userCount === 0) {
-        return ['message' => 'You have liked every potential match that aligns with your preferences.']; // Return a message when no users are found
+        return ['message' => '<div class="noUsers">You have liked every potential match that aligns with your preferences.</div>']; // Return a message when no users are found
     }
 
     $randomIndex = array_rand($users);
@@ -532,7 +532,7 @@ public function userLike($userId, $randomUserId) {
 
                     if ($matchStmt->rowCount() > 0) {
                         header("location:swipe.php");
-                        $_SESSION['message'] = "It's a match! " . $likedId;
+                        $_SESSION['message'] = "<div class='aMatch'>It's a match! " . $likedId . "</div>";
                         return;
                     } else {
                         echo "Error: Failed to insert into matches table.";

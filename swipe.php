@@ -67,6 +67,20 @@
                         } else {
                             echo "No more users to display.";
                         }
+                        ?>
+                                 
+                <!-- Display a message stored in the session -->
+                <div id="messagePHP">
+                    <?php
+                    if (isset($_SESSION['message'])) {
+                        // Output the message
+                        echo $_SESSION['message'];
+                        // Remove the message from the session
+                        unset($_SESSION['message']);
+                    }
+                    ?>
+                </div>
+                <?php
                         echo '<div class="swipeButtons">';
                         
                         // Output the skip link
@@ -86,18 +100,6 @@
                     echo "User ID is not present in the session";
                 }
                 ?>
-            
-                <!-- Display a message stored in the session -->
-                <div id="messagePHP">
-                    <?php
-                    if (isset($_SESSION['message'])) {
-                        // Output the message
-                        echo $_SESSION['message'];
-                        // Remove the message from the session
-                        unset($_SESSION['message']);
-                    }
-                    ?>
-                </div>
             
 
             <div class="redirect">

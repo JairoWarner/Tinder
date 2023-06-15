@@ -12,6 +12,7 @@
 
 <!-- <div class="divRead"> -->
 <div class="content">
+<h1>Matches</h1>
 
     <div class="swipe">
 
@@ -30,7 +31,6 @@
         ?>
     </div>
     <div class="matches">
-
     <?php
         // require 'Classes/User.php';
 
@@ -51,8 +51,13 @@
                     $matchId = $matchedUser['matchId'];
         
                     $url = "chatForm.php?action=chat&matchedUserId=" . urlencode($matchedUserId);
-        
-                    echo '<li class="matchedUserList" ></i><a href="' . $url . '"><i class="bx bx-user-circle">' . $matchedUserName . ' ' . $matchedUserSurName . '</a><td><a href="?delete=' . $matchId . '"> <i class="bx bxs-trash"></i></a></td></li>';
+
+                    echo '<div class="matchedUserList">';
+                    echo '<li><a href="' . $url . '">' . $matchedUserName . ' ' . $matchedUserSurName . '</a></li>';
+                    echo '<li class="deleteButton"><a href="?delete=' . $matchId . '" onclick="return confirm(\'Are you sure you want to delete this article?\')"><i class="bx bxs-trash"></i></a></li>';
+                    echo '</div>';
+
+                    
         
                     if (isset($_GET['delete'])) {
                         $id = $_GET['delete'];

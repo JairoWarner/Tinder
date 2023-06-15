@@ -211,18 +211,10 @@ nav .dropdown:hover .dropdown-content {
         transform: scale(1);
     }
 }
-/* Chat */
-.headerName {
-    font-size: x-large;
-    font-weight: 900;
-    text-decoration: none;
-    color: rgb(62, 62, 62);
+/* messages */
+.messagePHP{
     margin: 10px;
     padding: 10px;
-    background-color: #FD746C;
-    border-radius: 20px;
-    height: auto;
-
 }
 
 .redirect a{
@@ -238,6 +230,20 @@ nav .dropdown:hover .dropdown-content {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+/* Chat */
+.headerName {
+    font-size: x-large;
+    font-weight: 900;
+    text-decoration: none;
+    color: rgb(62, 62, 62);
+    margin: 10px;
+    padding: 10px;
+    background-color: #FD746C;
+    border-radius: 20px;
+    height: auto;
+
 }
 
 .headerName:hover {
@@ -430,13 +436,18 @@ nav .dropdown:hover .dropdown-content {
   outline: none;
   }
   .matchedUserList {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     width: 200px;
     border-radius: 10px;
     background-color: #fbdac4;
    padding: 10px;
    margin: 10px;
 }
+.matchedUserDiv {
 
+}
 .matchedUserList a {
     text-decoration: none;
     color: black;
@@ -472,6 +483,11 @@ nav .dropdown:hover .dropdown-content {
 .bx {
     font-size: large;
 }
+.bxs-trash:hover {
+    font-size: large;
+    font-weight: bolder;
+    color: red;
+} 
 
 /* read */
 .readList li {
@@ -501,12 +517,18 @@ li {
     justify-content: center;
 }
 
-.noMatches {
+.noMatches, .noUsers {
     font-size: larger;
     font-weight: bolder;
     margin: 10px;
     padding: 10px;
 
+}
+.aMatch {
+    margin: 10px;
+    padding: 10px;
+    font-size: larger;
+    font-weight: bolder;
 }
 
 /* swipe */
