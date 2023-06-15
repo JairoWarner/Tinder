@@ -302,6 +302,22 @@ public function updateUser($userId, $naam, $achternaam, $geboorteDatum, $geslach
     header("Location: account.php");
 }
 
+public function deleteMatch($matchedUserId) {
+    require "database/database.php";
+    //delete chats first for key constraint valiation
+    // Delete chats with matching matchId from chats table
+    $sql = $conn->prepare('DELETE FROM chats WHERE matchId = :matchedUserId');
+    $sql->bindParam(":matchedUserId", $matchedUserId);
+    $sql->execute();
+
+    // Delete match from matches table
+    $sql = $conn->prepare('DELETE FROM matches WHERE matchId = :matchedUserId');
+    $sql->bindParam(":matchedUserId", $matchedUserId);
+    $sql->execute();
+
+
+}
+
 
 // User Delete
 // Deletes a user and associated records from the database
@@ -418,13 +434,13 @@ public function fetchRandomUser($userId) {
 
     $params = [':userId' => $userId, ':likerId' => $userId];
 
-    if ($showMe == 'both') {
+    if ($showMe == 'Both') {
         // Show both genders
         $sql .= 'AND geslacht IN ("Male", "Female")';
-    } elseif ($showMe == 'Male') {
+    } elseif ($showMe == 'Men') {
         // Show only male users
         $sql .= 'AND geslacht = "Male"';
-    } elseif ($showMe == 'Female') {
+    } elseif ($showMe == 'Women') {
         // Show only female users
         $sql .= 'AND geslacht = "Female"';
     }
@@ -449,12 +465,17 @@ public function fetchRandomUser($userId) {
     $stmt->execute($params);
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if (empty($users)) {
-        return ['message' => 'You have liked every potential match that align with your preferences.']; // Return a message when no users are found
+    $userCount = count($users); // Get the count of users
+
+    if ($userCount === 0) {
+        return ['message' => 'You have liked every potential match that aligns with your preferences.']; // Return a message when no users are found
     }
 
     $randomIndex = array_rand($users);
-    return $users[$randomIndex];
+    $randomUser = $users[$randomIndex];
+    $randomUser['userCount'] = $userCount; // Add the user count to the random user data
+
+    return $randomUser;
 }
 
 
@@ -559,16 +580,19 @@ public function getMatches($userId) {
     $sql->execute();
 
     $matches = $sql->fetchAll(PDO::FETCH_ASSOC);
-    $matchedUserIds = array();
+    $matchedUsers = array();
 
     foreach ($matches as $match) {
         $matchedUserId = ($match['user_id_1'] == $userId) ? $match['user_id_2'] : $match['user_id_1'];
-        $matchedUserIds[] = $matchedUserId;
+        $matchedUser = array(
+            'matchId' => $match['matchId'],
+            'userId' => $matchedUserId
+        );
+        $matchedUsers[] = $matchedUser;
     }
 
-    return $matchedUserIds;
+    return $matchedUsers;
 }
-
 // Matched User
 // Retrieves information about other users using their ID
 public function matchedUser($matchedUserId) {

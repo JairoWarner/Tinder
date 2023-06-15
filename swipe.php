@@ -36,10 +36,10 @@
 
             // Get the user ID based on the email
             $user1->getUserIdSession($email);
-        ?>
-        <div class="swipeContent">
-            <!-- Display a link to the liked.php page if the user ID is present in the session -->
-            <?php
+            ?>
+            <div class="swipeContent">
+                <!-- Display a link to the liked.php page if the user ID is present in the session -->
+                <?php
                 if (isset($_SESSION['userId'])) {
                     // Get the user ID from the session
                     $userId = $_SESSION['userId'];
@@ -49,7 +49,7 @@
                         echo $randomUser['message'];
                     } else {
                         $randomUserId = $randomUser['userId'];
-
+            
                         if ($randomUser) {
                             // Display user information
                             echo "<div class='randomUser'>";
@@ -59,6 +59,11 @@
                             echo "<p> Age: ".$randomUser['leeftijd']."</p>";
                             echo "</div>";
                             // echo "<p>".$randomUserId."</p>";
+            
+                            // Display user count
+                            if (isset($randomUser['userCount'])) {
+                                echo "<p>Potential matches left: ".$randomUser['userCount']."</p>";
+                            }
                         } else {
                             echo "No more users to display.";
                         }
@@ -67,7 +72,7 @@
                         // Output the skip link
                         echo ' <div class="kruis">';
                         $skipLink = $_SERVER['PHP_SELF'];
-
+            
                         echo '<a href="' . $skipLink . '"><button class="doerustig1" type="submit"><i class="bx bx-x"></i></button></a>';
                         echo '</div>';
                         // Create a link to the liked.php page with the user ID as a parameter
@@ -77,22 +82,23 @@
                         echo '</div>';                 
                         echo '</div>';
                     }
-                    ?>
-                    <!-- Display a message stored in the session -->
-                    <div id="messagePHP"><?php
-                        if (isset($_SESSION['message'])) {
-                            // Output the message
-                            echo $_SESSION['message'];
-                            // Remove the message from the session
-                            unset($_SESSION['message']);
-                        }
-                    ?></div>
-                    <?php
                 } else {
                     echo "User ID is not present in the session";
                 }
-    
-            ?>
+                ?>
+            
+                <!-- Display a message stored in the session -->
+                <div id="messagePHP">
+                    <?php
+                    if (isset($_SESSION['message'])) {
+                        // Output the message
+                        echo $_SESSION['message'];
+                        // Remove the message from the session
+                        unset($_SESSION['message']);
+                    }
+                    ?>
+                </div>
+            
 
             <div class="redirect">
                 <a href="matches.php"><i class='bx bx-chat'>Matches</i></a>

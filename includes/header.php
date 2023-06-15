@@ -12,7 +12,7 @@
         <div class="accountDiv">
             <?php if(isset($_SESSION['email'])): ?>
                 <!-- If the 'email' key is set in the session, display username and account-related links -->
-                <div class="username"><?php echo $_SESSION['email']; ?></div>
+                <div class="username"><i class='bx bxs-user-account'> <?php echo $_SESSION['email']; ?></i></div>
                 <li><a href="account.php">Account</a></li>
                 <li><a id="logoutBtn" href="includes/logout.php"><i class='bx bx-log-out'></i>Logout</a></li>
             <?php else: ?>

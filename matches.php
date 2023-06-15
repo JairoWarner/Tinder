@@ -10,7 +10,9 @@
 <body>
 <?php require 'includes/header.php'?> <!-- Include the header.php file -->
 
-<div class="divRead">
+<!-- <div class="divRead"> -->
+<div class="content">
+
     <div class="swipe">
 
         <?php 
@@ -27,7 +29,8 @@
             $user1->getUserIdSession($email); // Call the getUserIdSession method of the User class
         ?>
     </div>
-    
+    <div class="matches">
+
     <?php
         // require 'Classes/User.php';
 
@@ -37,47 +40,49 @@
 
         // var_dump($matchedUserIds)
 
-        if (!empty($matchedUserIds)) { // Check if there are matched user IDs
+        if (!empty($matchedUserIds)) {
             echo '<div class="matchesDiv">';
-            foreach ($matchedUserIds as $matchedUserId) { // Iterate through the matched user IDs
-                $matchedUser = $user->matchedUser($matchedUserId); // Call the matchedUser method of the User class
-
-                if ($matchedUser !== null) { // Check if the matched user exists
-                    $matchedUserName = $matchedUser[0]['name']; // Retrieve the matched user's name
-                    $matchedUserSurName = $matchedUser[0]['surname']; // Retrieve the matched user's surname
-
-                    // Construct the URL with matchedUserId as a query parameter
+            foreach ($matchedUserIds as $matchedUser) {
+                $matchedUserId = $matchedUser['userId'];
+                $matchedUserDetails = $user->matchedUser($matchedUserId);
+                if ($matchedUserDetails !== null) {
+                    $matchedUserName = $matchedUserDetails[0]['name'];
+                    $matchedUserSurName = $matchedUserDetails[0]['surname'];
+                    $matchId = $matchedUser['matchId'];
+        
                     $url = "chatForm.php?action=chat&matchedUserId=" . urlencode($matchedUserId);
         
-                    // Output the link and additional user information
-                    echo '<li class="matchedUserList" ></i><a href="' . $url . '"><i class="bx bx-user-circle">' . $matchedUserName . ' ' . $matchedUserSurName . '</a></li>';
+                    echo '<li class="matchedUserList" ></i><a href="' . $url . '"><i class="bx bx-user-circle">' . $matchedUserName . ' ' . $matchedUserSurName . '</a><td><a href="?delete=' . $matchId . '"> <i class="bx bxs-trash"></i></a></td></li>';
+        
+                    if (isset($_GET['delete'])) {
+                        $id = $_GET['delete'];
+                        $user->deleteMatch($id);
+                    }
                 }
             }
             echo '</div>';
 
         } else {
-            echo "No matches found.";
+            echo "<div class='noMatches'> No matches yet.</div>";
         }
-        
-    ?>
 
+    ?>
     <div id="messagePHP"><?php
         if (isset($_SESSION['message'])) {
             echo $_SESSION['message']; // Output the stored message from the session
             unset($_SESSION['message']); // Remove the message from the session
         }
     ?>
-    <div class="redirect">
-        <a href="swipe.php"><i class='bx bxs-hot'>Swipe here!</i></a>
-    </div>
-       
-</div>
-<?php require 'includes/footer.php'?> <!-- Include the footer.php file -->
-<style>
-.bx:hover {
-    font-weight: bold;
     
-}
-    </style>
+    <div class="redirect">
+                <a href="swipe.php"><i class='bx bxs-hot'>Swipe here</i></a>
+            </div>
+
+    <!-- </div> -->
+    </div>
+</div>  
+<?php require 'includes/footer.php'?> <!-- Include the footer.php file -->
+
+
 </body>
 </html>
