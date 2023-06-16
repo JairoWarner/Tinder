@@ -63,23 +63,27 @@ $user = $userObj->findUser($userId);
                         <label>School/Baan:</label>
                         <input type="text" name="schoolBaan" value="<?php echo $user['schoolBaan']; ?>"><br>
 
-                        <label>Interesses:</label>
-                        <input type="text" name="interesses" value="<?php echo $user['interesses']; ?>"><br>
+                        <label for="showMe">Show Me:</label>
+                        <select name="showMe" id="showMe" required>
+                            <option value="Both" <?php if ($user['showMe'] === 'Both') echo 'selected'; ?>>Both</option>
+                            <option value="Men" <?php if ($user['showMe'] === 'Men') echo 'selected'; ?>>Men</option>
+                            <option value="Woman" <?php if ($user['showMe'] === 'Woman') echo 'selected'; ?>>Woman</option>
+                        </select><br><br>
 
-                        <label>Foto's:</label>
-                        <input type="text" name="fotos" value="<?php echo $user['fotos']; ?>"><br>
+                        <label for="leeftijd">Leeftijd:</label>
+                        <input type="number" name="leeftijd" id="leeftijd" required value="<?php echo $user['leeftijd']; ?>"><br><br>
 
-                        <label>Show me:</label>
-                        <input type="text" name="showMe" value="<?php echo $user['showMe']; ?>"><br>
+                        <label for="ageRange">Age Range:</label>
+                        <div id="ageSlider">
+                            <input type="range" id="minAge" min="18" max="100" value="18" oninput="updateAgeRange()" />
+                            <input type="range" id="maxAge" min="18" max="100" value="100" oninput="updateAgeRange()" />
 
-                        <label>Leeftijd:</label>
-                        <input type="text" name="leeftijd" value="<?php echo $user['leeftijd']; ?>"><br>
+                            <div id="ageRangeLabel"></div>
+                            <input type="hidden" id="ageRange" name="ageRange" value="" />
+                        </div>
 
-                        <label>Leeftijdsbereik:</label>
-                        <input type="text" name="ageRange" value="<?php echo $user['ageRange']; ?>"><br>
-
-                        <label>Bio:</label>
-                        <input type="text" name="bio" value="<?php echo $user['bio']; ?>"><br>
+                        <label for="bio">Bio:</label>
+                        <textarea name="bio" id="bio" required><?php echo $user['bio']; ?></textarea><br><br>
 
                         <div class="formEnd">
                             <input type="submit" value="Submit">
@@ -90,5 +94,14 @@ $user = $userObj->findUser($userId);
             </div>
         </div>
     </div>
+    <script>
+        function updateAgeRange() {
+    var minAge = document.getElementById("minAge").value;
+    var maxAge = document.getElementById("maxAge").value;
+    var ageRangeLabel = document.getElementById("ageRangeLabel");
+    ageRangeLabel.textContent = minAge + " - " + maxAge;
+    document.getElementById("ageRange").value = minAge + "-" + maxAge;
+}
+    </script>
 </body>
 </html>

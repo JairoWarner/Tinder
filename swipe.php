@@ -57,6 +57,7 @@
                             echo "<p>".$randomUser['bio']."</p>";
                             echo "<p>".$randomUser['geslacht']."</p>";
                             echo "<p> Age: ".$randomUser['leeftijd']."</p>";
+                            echo "<p> Proffesion: ".$randomUser['schoolBaan']."</p>";
                             echo "</div>";
                             // echo "<p>".$randomUserId."</p>";
             

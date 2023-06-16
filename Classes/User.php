@@ -362,59 +362,6 @@ public function findUser($userId) {
     return $user;
 }
 
-// Fetch Users
-// Fetches the userId of all users with the right gender for the logged-in user
-// public function fetchRandomUser($userId) {
-//     require 'database/database.php';
-
-//     // Fetch the showMe and ageRange values of the logged-in user from the database
-//     $stmt = $conn->prepare('SELECT showMe, ageRange FROM users WHERE userId = :userId');
-//     $stmt->bindParam(':userId', $userId);
-//     $stmt->execute();
-//     $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-//     $showMe = $userData['showMe'];
-//     $ageRange = $userData['ageRange'];
-
-
-
-//     // Construct the SQL query dynamically based on the showMe and ageRange values
-//     $sql = 'SELECT userId, naam, bio, geslacht, leeftijd
-//             FROM users
-//             WHERE userId != :userId ';
-
-//     $params = [':userId' => $userId];
-
-//     if ($showMe == 'both') {
-//         // Show both genders
-//         $sql .= 'AND geslacht IN ("Male", "Female")';
-//     } elseif ($showMe == 'Male') {
-//         // Show only male users
-//         $sql .= 'AND geslacht = "Male"';
-//     } elseif ($showMe == 'Female') {
-//         // Show only female users
-//         $sql .= 'AND geslacht = "Female"';
-//     }
-
-//     // Add the ageRange condition to the SQL query
-//     if (!empty($ageRange)) {
-//         list($minAge, $maxAge) = explode('-', $ageRange);
-//         $sql .= ' AND leeftijd >= :minAge AND leeftijd <= :maxAge';
-//         $params[':minAge'] = $minAge;
-//         $params[':maxAge'] = $maxAge;
-//     }
-
-//     // Execute the final query with the constructed SQL and parameters
-//     $stmt = $conn->prepare($sql);
-//     $stmt->execute($params);
-//     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-//     if (empty($users)) {
-//         return null;
-//     }
-
-//     $randomIndex = array_rand($users);
-//     return $users[$randomIndex];
-// }
 public function fetchRandomUser($userId) {
     require 'database/database.php';
 
@@ -427,7 +374,7 @@ public function fetchRandomUser($userId) {
     $ageRange = $userData['ageRange'];
 
     // Construct the SQL query dynamically based on the showMe and ageRange values
-    $sql = 'SELECT userId, naam, bio, geslacht, leeftijd
+    $sql = 'SELECT userId, naam, bio, geslacht, leeftijd, schoolBaan
             FROM users
             WHERE userId != :userId ';
 
@@ -531,7 +478,7 @@ public function userLike($userId, $randomUserId) {
 
                     if ($matchStmt->rowCount() > 0) {
                         header("location:swipe.php");
-                        $_SESSION['message'] = "<div class='aMatch'>It's a match! " . $likedId . "</div>";
+                        $_SESSION['message'] = "<div class='aMatch'>It's a match!</div>";
                         return;
                     } else {
                         echo "Error: Failed to insert into matches table.";
@@ -541,7 +488,6 @@ public function userLike($userId, $randomUserId) {
             }
 
             header("location:swipe.php");
-            $_SESSION['message'] = "Liked " . $randomUserId;
         } else {
             echo "Error: " . $insertStmt->errorInfo()[2];
         }
@@ -613,7 +559,6 @@ public function matchedUser($matchedUserId) {
         $userData['sexualOrientation'] = $user['sexualOri'];
         $userData['schoolJob'] = $user['schoolBaan'];
         $userData['hobbies'] = $user['interesses'];
-        $userData['photos'] = $user['fotos'];
         $userData['preference'] = $user['showMe'];
         $userData['age'] = $user['leeftijd'];
         $userData['ageRange'] = $user['ageRange'];

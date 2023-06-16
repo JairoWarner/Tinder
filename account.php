@@ -28,30 +28,31 @@
                 // Retrieve and display the user information based on the email
                 $user1->readUser($email);
             ?>
-            
-            
-            <!-- Redirect links -->
-            <div class="redirectContainer">
-                <div class="redirect">
-                    <a href="swipe.php"><i class='bx bxs-hot'>Swipe here!</i></a>
-                </div>
-                <div class="redirect">
-                    <a href="matches.php"><i class='bx bx-chat'>Matches</i></a>
-                </div>
-            </div>
+
+    </div>
+    <!-- Display a message stored in the session -->
+    <div id="messagePHP"><?php
+    if (isset($_SESSION['message'])) {
+        // Output the message
+        echo $_SESSION['message'];
+        // Remove the message from the session
+        unset($_SESSION['message']);
+    }
+    ?></div>
+    
+    <!-- Redirect links -->
+    <div class="redirectContainer">
+        <div class="redirect">
+            <a href="swipe.php"><i class='bx bxs-hot'>Swipe here!</i></a>
         </div>
+        <div class="redirect">
+            <a href="matches.php"><i class='bx bx-chat'>Matches</i></a>
+        </div>
+    </div>
+</div>
 
         
-        <!-- Display a message stored in the session -->
-        <div id="messagePHP"><?php
-            if (isset($_SESSION['message'])) {
-                // Output the message
-                echo $_SESSION['message'];
-                // Remove the message from the session
-                unset($_SESSION['message']);
-            }
-        ?></div>
-    </div>
+ 
 
 <?php require 'includes/footer.php'?>
 </body>
