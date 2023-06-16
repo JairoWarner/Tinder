@@ -253,7 +253,6 @@ public function getEmail() {
             
             echo '<li><div class="label">School/Job:</div><div class="value">' . $user['schoolBaan'] . '</div></li>';
             echo '<li><div class="label">Hobbies:</div><div class="value">' . $user['interesses'] . '</div></li>';
-            echo '<li><div class="label">Foto\'s:</div><div class="value">' . $user['fotos'] . '</div></li>';
             echo '<li><div class="label">Preference:</div><div class="value">' . $user['showMe'] . '</div></li>';
             echo '<li><div class="label">Age:</div><div class="value">' . $user['leeftijd'] . '</div></li>';
             echo '<li><div class="label">Age Range:</div><div class="value">' . $user['ageRange'] . '</div></li>';

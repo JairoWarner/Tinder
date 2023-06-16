@@ -14,7 +14,7 @@ if (isset($_POST['register'])) {
     // $locatie = $_POST['locatie'];
     $sexualOri = $_POST['sexualOri'];
     $schoolBaan = $_POST['schoolBaan'];
-    $interesses = $_POST['interesses'];
+    // $interesses = $_POST['interesses'];
     $showMe = $_POST['showMe'];
     $leeftijd = $_POST['leeftijd'];
     $ageRange = $_POST['ageRange'];
@@ -45,7 +45,7 @@ if (isset($_POST['register'])) {
     // If all validation checks pass, insert the new user into the database
     if ($check_email->rowCount() == 0 && $password == $confirm_password) {
         $password = password_hash($password, PASSWORD_DEFAULT);
-        $query = $conn->prepare("INSERT INTO users (email, password, naam, achternaam, geboorteDatum, geslacht, sexualOri, schoolBaan, showMe, leeftijd, ageRange, bio) VALUES (:email, :password, :naam, :achternaam, :geboorteDatum, :geslacht, :locatie, :sexualOri, :schoolBaan, :interesses, :showMe, :leeftijd, :ageRange, :bio)");
+        $query = $conn->prepare("INSERT INTO users (email, password, naam, achternaam, geboorteDatum, geslacht, sexualOri, schoolBaan, showMe, leeftijd, ageRange, bio) VALUES (:email, :password, :naam, :achternaam, :geboorteDatum, :geslacht, :sexualOri, :schoolBaan, :showMe, :leeftijd, :ageRange, :bio)");
         $query->bindParam(':email', $email);
         $query->bindParam(':password', $password);
         $query->bindParam(':naam', $naam);
@@ -65,17 +65,17 @@ if (isset($_POST['register'])) {
         // Get the newly created user's ID
         $user_id = $conn->lastInsertId();
 
-        // Upload the image file and insert the filename into the images table
-        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $filename = $_FILES['image']['name'];
-            $filedata = file_get_contents($_FILES['image']['tmp_name']);
+        // // Upload the image file and insert the filename into the images table
+        // if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        //     $filename = $_FILES['image']['name'];
+        //     $filedata = file_get_contents($_FILES['image']['tmp_name']);
 
-            $stmt = $conn->prepare("INSERT INTO images (id, filename, filedata) VALUES (?, ?, ?)");
-            $stmt->bindParam(1, $user_id);
-            $stmt->bindParam(2, $filename);
-            $stmt->bindParam(3, $filedata, PDO::PARAM_LOB);
-            $stmt->execute();
-        }
+        //     $stmt = $conn->prepare("INSERT INTO images (id, filename, filedata) VALUES (?, ?, ?)");
+        //     $stmt->bindParam(1, $user_id);
+        //     $stmt->bindParam(2, $filename);
+        //     $stmt->bindParam(3, $filedata, PDO::PARAM_LOB);
+        //     $stmt->execute();
+        // }
 
         if ($query->rowCount() > 0) {
             $_SESSION['message'] = 'Account created successfully!';

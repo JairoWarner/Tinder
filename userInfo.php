@@ -48,7 +48,6 @@
                     $matchedUserSexualOrientation = $user['sexualOrientation'];
                     $matchedUserSchoolJob = $user['schoolJob'];
                     $matchedUserHobbies = $user['hobbies'];
-                    $matchedUserPhotos = $user['photos'];
                     $matchedUserPreference = $user['preference'];
                     $matchedUserAge = $user['age'];
                     $matchedUserAgeRange = $user['ageRange'];
@@ -76,7 +75,6 @@
                     echo '<ul>'; // Open the second list
                     echo '<li><div class="label">School/Job:</div><div class="value">' . $matchedUserSchoolJob . '</div></li>';
                     echo '<li><div class="label">Hobbies:</div><div class="value">' . $matchedUserHobbies . '</div></li>';
-                    echo '<li><div class="label">Photos:</div><div class="value">' . $matchedUserPhotos . '</div></li>';
                     echo '<li><div class="label">Preference:</div><div class="value">' . $matchedUserPreference . '</div></li>';
                     echo '<li><div class="label">Age:</div><div class="value">' . $matchedUserAge . '</div></li>';
                     echo '<li><div class="label">Age Range:</div><div class="value">' . $matchedUserAgeRange . '</div></li>';

@@ -117,8 +117,8 @@ include("includes/header.php");
                                 <input type="checkbox" name="hobby" value="gaming" onchange="limitSelections(this)"> Gaming
                             </form>
                             </label> -->
-                            <label for="fotos">Fotos:</label>
-                            <input type="file" name="image" id="fotos"><br><br>
+                            <!-- <label for="fotos">Fotos:</label>
+                            <input type="file" name="image" id="fotos"><br><br> -->
 
                             <label for="showMe">Show Me:</label>
                             <select name="showMe" id="showMe" required>
