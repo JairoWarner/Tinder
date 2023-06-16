@@ -273,10 +273,10 @@ public function getEmail() {
 
 // Update User
 // Updates user information in the database
-public function updateUser($userId, $naam, $achternaam, $geboorteDatum, $geslacht, $locatie, $sexualOri, $schoolBaan, $interesses, $fotos, $showMe, $leeftijd, $ageRange, $bio) {
+public function updateUser($userId, $naam, $achternaam, $geboorteDatum, $geslacht, $locatie, $sexualOri, $schoolBaan, $interesses, $showMe, $leeftijd, $ageRange, $bio) {
     require 'database/conn.php';
     // Prepare the SQL statement
-    $sql = $conn->prepare('UPDATE users SET naam = :naam, achternaam = :achternaam, geboorteDatum = :geboorteDatum, geslacht = :geslacht, locatie = :locatie, sexualOri = :sexualOri, schoolBaan = :schoolBaan, interesses = :interesses, fotos = :fotos, showMe = :showMe, leeftijd = :leeftijd, ageRange = :ageRange, bio = :bio WHERE userId = :userId');
+    $sql = $conn->prepare('UPDATE users SET naam = :naam, achternaam = :achternaam, geboorteDatum = :geboorteDatum, geslacht = :geslacht, locatie = :locatie, sexualOri = :sexualOri, schoolBaan = :schoolBaan, interesses = :interesses, showMe = :showMe, leeftijd = :leeftijd, ageRange = :ageRange, bio = :bio WHERE userId = :userId');
 
     // Bind parameters with values
     $sql->bindParam(':userId', $userId);
@@ -288,7 +288,7 @@ public function updateUser($userId, $naam, $achternaam, $geboorteDatum, $geslach
     $sql->bindParam(':sexualOri', $sexualOri);
     $sql->bindParam(':schoolBaan', $schoolBaan);
     $sql->bindParam(':interesses', $interesses);
-    $sql->bindParam(':fotos', $fotos);
+    // $sql->bindParam(':fotos', $fotos);
     $sql->bindParam(':showMe', $showMe);
     $sql->bindParam(':leeftijd', $leeftijd);
     $sql->bindParam(':ageRange', $ageRange);

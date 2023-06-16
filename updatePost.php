@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sexualOri = $_POST['sexualOri'];
     $schoolBaan = $_POST['schoolBaan'];
     $interesses = $_POST['interesses'];
-    $fotos = $_POST['fotos'];
+    // $fotos = $_POST['fotos'];
     $showMe = $_POST['showMe'];
     $leeftijd = $_POST['leeftijd'];
     $ageRange = $_POST['ageRange'];
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sexualOri,
         $schoolBaan,
         $interesses,
-        $fotos,
+        // $fotos,
         $showMe,
         $leeftijd,
         $ageRange,
