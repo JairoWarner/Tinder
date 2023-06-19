@@ -58,9 +58,11 @@
                     $chat1->readMessage($matchId, $userId, $matchedUserId, $matchedUserName); // Read the messages for the conversation
                 ?>
                 
-                
             </div>
+
         </div>
+        <a href="#bottom" class="bottomButton"><i class='bx bxs-chevrons-down'></i></a>
+
         <div class="sendMessage">
                     <form action="send_message.php" method="post" id="messageForm">
                         <input type="hidden" name="matchId" value="<?php echo $matchId; ?>">
@@ -151,6 +153,7 @@ cancelButton.classList.add('cancel-button');
     }
     var chatForm = document.querySelector('.chatForm');
     chatForm.scrollTop = chatForm.scrollHeight;
+    
 </script>
 
 <style>

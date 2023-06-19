@@ -94,6 +94,7 @@ class Chat {
             echo '</div>';
             echo '</div>';
         }
+        echo '<div id="bottom"> </div>';
     }
     //Update Chat
     public function updateChat($chatId, $editedMessage, $matchedUserId) {
