@@ -34,28 +34,46 @@
             $user1 = new User(); // Create a new instance of the User class
 
             $matchedUserId = $_GET['matchedUserId']; // Retrieve the matchedUserId from the URL
-
+            
+            // Check if matchedUserId is null or empty
+            if (empty($matchedUserId)) {
+                echo 'Match not found';
+                exit;
+            }
             //add the matchedUserId to javascript for the update function
             echo '<script>';
             echo 'var matchedUserId = ' . json_encode($matchedUserId) . ';';
             echo '</script>';
+
             $matchedUser = $user1->matchedUser($matchedUserId); // Get the matched user's information
             
-            if ($matchedUser !== null) { // Check if the matched user exists
+            if (!empty($matchedUser)) { // Check if the matched user exists
                 $matchedUserName = $matchedUser[0]['name']; // Get the matched user's name
-                $matchedUserSurName = $matchedUser[0]['surname']; // Get the matched
+                $matchedUserSurName = $matchedUser[0]['surname']; // Get the matched user's surname
                 echo '<a class="headerName" href="UserInfo.php?action=chat&matchedUserId=' . $matchedUserId . '">' . $matchedUserName . " ". $matchedUserSurName. '</a>'; // Output the matched user's name with a link
+
+            } else {
+                // Match not found
+                echo 'User does not excist';
             }
         ?>
 
         <div class="chatForm">
             <div class="messageContent">
+                
                 <?php
+                
                     $searchMatchId = $user1->searchMatchId($userId, $matchedUserId); // Search for the matchId based on userId and matchedUserId
-                    $matchId = $searchMatchId[0]; // Get the matchId
-
-                    $chat1 = new Chat($matchId, $userId, $matchedUserId, $matchedUserName); // Create a new instance of the Chat class
-                    $chat1->readMessage($matchId, $userId, $matchedUserId, $matchedUserName); // Read the messages for the conversation
+                    if (!empty($searchMatchId)) { // Check if the matchId exists
+                        $matchId = $searchMatchId[0]; // Get the matchId
+                
+                        $chat1 = new Chat($matchId, $userId, $matchedUserId, $matchedUserName); // Create a new instance of the Chat class
+                        $chat1->readMessage($matchId, $userId, $matchedUserId, $matchedUserName); // Read the messages for the conversation
+                    } else {
+                        // Match not found
+                        echo 'Match not found';
+                    }
+             
                 ?>
                 
             </div>
