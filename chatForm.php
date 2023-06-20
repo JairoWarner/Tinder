@@ -54,7 +54,7 @@
 
             } else {
                 // Match not found
-                echo 'User does not excist';
+                echo 'User does not exist';
             }
         ?>
 
@@ -104,42 +104,44 @@
 </div>
 
 <script>
+    //cancel edit button
     function cancelEdit(chatId) {
-  var messageText = document.getElementById('message-text-' + chatId);
-  var currentText = document.getElementById('edit-input-' + chatId).value;
-  
-  messageText.innerHTML = currentText;
-}
+        var messageText = document.getElementById('message-text-' + chatId);
+        var currentText = document.getElementById('edit-input-' + chatId).value;
+        
+        messageText.innerHTML = currentText;
+    }
 
+    //edit message button
+    function editMessage(chatId) {
+        var messageText = document.getElementById('message-text-' + chatId);
+        var currentText = messageText.innerHTML.trim();
+        
+        var inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.value = currentText;
+        inputField.id = 'edit-input-' + chatId;
+        
+        var submitButton = document.createElement('button');
+        submitButton.type = 'button';
+        submitButton.onclick = function() { submitUpdateMessage(chatId, matchedUserId); };
+        submitButton.innerHTML = '<i class="bx bx-check">edit message</i>';
 
-function editMessage(chatId) {
-  var messageText = document.getElementById('message-text-' + chatId);
-  var currentText = messageText.innerHTML.trim();
-  
-  var inputField = document.createElement('input');
-  inputField.type = 'text';
-  inputField.value = currentText;
-  inputField.id = 'edit-input-' + chatId;
-  
-  var submitButton = document.createElement('button');
-  submitButton.type = 'button';
-  submitButton.onclick = function() { submitMessage(chatId, matchedUserId); };
-  submitButton.innerHTML = '<i class="bx bx-check">edit message</i>';
+        var cancelButton = document.createElement('button');
+        cancelButton.type = 'button';
+        cancelButton.onclick = function() { cancelEdit(chatId); };
+        cancelButton.innerHTML = "<i class='bx bx-x'></i>";
+        cancelButton.classList.add('cancel-button');
 
-  var cancelButton = document.createElement('button');
-cancelButton.type = 'button';
-cancelButton.onclick = function() { cancelEdit(chatId); };
-cancelButton.innerHTML = "<i class='bx bx-x'></i>";
-cancelButton.classList.add('cancel-button');
+        
+        messageText.innerHTML = '';
+        messageText.appendChild(inputField);
+        messageText.appendChild(submitButton);
+        messageText.appendChild(cancelButton);
+    }
 
-  
-  messageText.innerHTML = '';
-  messageText.appendChild(inputField);
-  messageText.appendChild(submitButton);
-  messageText.appendChild(cancelButton);
-}
-
-    function submitMessage(chatId, matchedUserId) {
+    //submit update message
+    function submitUpdateMessage(chatId, matchedUserId) {
 
         var editedText = document.getElementById('edit-input-' + chatId).value.trim();
         
@@ -169,6 +171,7 @@ cancelButton.classList.add('cancel-button');
         // Submit the form
         form.submit();
     }
+    //automatic scroll to bottomw
     var chatForm = document.querySelector('.chatForm');
     chatForm.scrollTop = chatForm.scrollHeight;
     

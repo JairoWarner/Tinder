@@ -67,7 +67,7 @@ $user = $userObj->findUser($userId);
                         <select name="showMe" id="showMe" required>
                             <option value="Both" <?php if ($user['showMe'] === 'Both') echo 'selected'; ?>>Both</option>
                             <option value="Men" <?php if ($user['showMe'] === 'Men') echo 'selected'; ?>>Men</option>
-                            <option value="Woman" <?php if ($user['showMe'] === 'Woman') echo 'selected'; ?>>Woman</option>
+                            <option value="Women" <?php if ($user['showMe'] === 'Women') echo 'selected'; ?>>Women</option>
                         </select><br><br>
 
                         <label for="leeftijd">Leeftijd:</label>

@@ -124,7 +124,7 @@ include("includes/header.php");
                             <select name="showMe" id="showMe" required>
                             <option value="Both">Both</option>
                             <option value="Men">Men</option>
-                            <option value="Woman">Woman</option>
+                            <option value="Women">Women</option>
                             </select><br><br>
 
                             <label for="leeftijd">Leeftijd:</label>
